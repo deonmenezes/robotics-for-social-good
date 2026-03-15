@@ -80,9 +80,9 @@
 }
 
 .pill.active {
-    background: white;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
     color: #0a0a0f;
-    border-color: white;
+    border-color: transparent;
 }
 
 /* ===== THUMBNAIL GRID ===== */
@@ -93,12 +93,66 @@
 }
 
 .thumb-card {
-    border-radius: 10px;
+    position: relative;
+    border-radius: 22px;
     overflow: hidden;
     background: var(--bg-card);
     border: 1px solid var(--border);
     cursor: pointer;
     transition: 0.2s ease;
+}
+
+.thumb-card::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--card-a, var(--accent-1)), var(--card-b, var(--accent-2)));
+}
+
+.thumb-card[data-category="waste-segregation"] {
+    --card-a: #7dfd8a;
+    --card-b: #2ec27e;
+}
+
+.thumb-card[data-category="food-outreach"] {
+    --card-a: #ffd66b;
+    --card-b: #ff8b54;
+}
+
+.thumb-card[data-category="elder-support"] {
+    --card-a: #74d8ff;
+    --card-b: #9f8cff;
+}
+
+.thumb-card[data-category="disaster-response"] {
+    --card-a: #ff695e;
+    --card-b: #ffba54;
+}
+
+.thumb-card[data-category="robotics-research"] {
+    --card-a: #8d7bff;
+    --card-b: #4de2ff;
+}
+
+.thumb-card[data-category="general-robotics"] {
+    --card-a: #f4c400;
+    --card-b: #ff8e3c;
+}
+
+.thumb-card[data-category="agriculture"] {
+    --card-a: #79ff85;
+    --card-b: #b5d949;
+}
+
+.thumb-card[data-category="ocean-cleanup"] {
+    --card-a: #4de2ff;
+    --card-b: #2d7cff;
+}
+
+.thumb-card[data-category="healthcare"] {
+    --card-a: #ff7ecb;
+    --card-b: #ff9a5a;
 }
 
 .thumb-card:hover {
@@ -111,7 +165,10 @@
     aspect-ratio: 16 / 10;
     overflow: hidden;
     position: relative;
-    background: #111;
+    background:
+        radial-gradient(circle at top left, var(--card-a, var(--accent-1)), transparent 32%),
+        radial-gradient(circle at bottom right, var(--card-b, var(--accent-2)), transparent 34%),
+        #111;
 }
 
 .thumb-img img {
@@ -119,6 +176,8 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    opacity: 0.84;
+    mix-blend-mode: screen;
     transition: opacity 0.3s ease;
 }
 
@@ -173,7 +232,7 @@
     border-radius: 4px;
     font-size: 0.6rem;
     font-weight: 700;
-    color: #00cec9;
+    color: #fff1b6;
     text-transform: uppercase;
     letter-spacing: 0.03em;
 }
@@ -205,7 +264,7 @@
 
 .thumb-confidence {
     font-size: 0.68rem;
-    color: #00cec9;
+    color: #fff1b6;
     font-weight: 700;
 }
 
@@ -367,7 +426,7 @@
 .detail-conf-num {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #00cec9;
+    color: #fff1b6;
 }
 
 .detail-conf-bar {
@@ -380,7 +439,7 @@
 
 .detail-conf-fill {
     height: 100%;
-    background: #00cec9;
+    background: linear-gradient(90deg, var(--accent-1), var(--theme-cyan));
     border-radius: 3px;
 }
 

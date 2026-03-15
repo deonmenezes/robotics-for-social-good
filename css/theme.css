@@ -1,0 +1,199 @@
+:root {
+    --bg-primary: #090909;
+    --bg-secondary: #111111;
+    --bg-card: #171717;
+    --bg-card-hover: #1d1d1d;
+    --border: rgba(255, 255, 255, 0.12);
+    --text-primary: #f6f1e8;
+    --text-secondary: #d6cdc1;
+    --text-muted: #9f9589;
+    --accent: #f4c400;
+    --accent-1: #f4c400;
+    --accent-2: #ff8e3c;
+    --theme-cyan: #55dbff;
+    --theme-violet: #8d7bff;
+    --theme-green: #7dfd8a;
+    --radius: 18px;
+    --radius-lg: 28px;
+    --shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+}
+
+body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(244, 196, 0, 0.08), transparent 24%),
+        radial-gradient(circle at top right, rgba(85, 219, 255, 0.07), transparent 20%),
+        linear-gradient(180deg, #090909 0%, #101010 48%, #151515 100%);
+    color: var(--text-primary);
+}
+
+.navbar {
+    background: rgba(9, 9, 9, 0.88);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.nav-logo,
+.nav-links a,
+.footer-bottom p,
+.footer-powered {
+    color: var(--text-primary);
+}
+
+.logo-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    color: #111111;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    box-shadow: 0 12px 24px rgba(244, 196, 0, 0.22);
+}
+
+.logo-text,
+.hero-title,
+.section-title,
+.page-header h1,
+.cta-card h2,
+.pricing-header h3,
+.impact-card h3,
+.story-content h3,
+.feature-card h3,
+.upload-step h3,
+.points-info h2,
+.recent-section h3,
+.detail-title,
+.explore-left h1 {
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.nav-links a:hover,
+.nav-links a.nav-active {
+    color: #ffffff;
+}
+
+.btn-create,
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    color: #111111;
+    border-radius: 999px;
+    box-shadow: 0 14px 30px rgba(244, 196, 0, 0.18);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--accent-1), #fff1b6 46%, var(--theme-cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.section-tag,
+.impact-tag,
+.pricing-badge {
+    border-radius: 999px;
+}
+
+.section-tag {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff1b6;
+}
+
+.feature-card,
+.impact-card,
+.pricing-card,
+.upload-card,
+.payment-card,
+.cta-card,
+.impact-story-card,
+.modal,
+.upload-step,
+.analysis-panel,
+.recent-empty,
+.recent-item,
+.points-banner,
+.detail-panel,
+.detail-close,
+.thumb-card,
+.marketplace-shell,
+.marketplace-toolbar,
+.marketplace-stat {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+        var(--bg-card);
+    border-color: var(--border);
+    box-shadow: var(--shadow);
+}
+
+.feature-card:hover,
+.impact-card:hover,
+.pricing-card:hover,
+.pipeline-step:hover,
+.impact-story-card:hover,
+.thumb-card:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+.pricing-card.featured {
+    border-color: rgba(244, 196, 0, 0.35);
+    box-shadow: 0 0 40px rgba(244, 196, 0, 0.08);
+}
+
+.pricing-badge {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    color: #111111;
+}
+
+.page-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(244, 196, 0, 0.1), transparent 22%),
+        radial-gradient(circle at 90% 15%, rgba(85, 219, 255, 0.09), transparent 20%);
+    pointer-events: none;
+}
+
+.page-header .container {
+    position: relative;
+}
+
+.footer {
+    background: rgba(8, 8, 8, 0.7);
+    border-top: 1px solid var(--border);
+}
+
+.footer-powered strong {
+    color: #fff1b6;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.cta-form input {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.toast {
+    background: #151515;
+    border: 1px solid rgba(244, 196, 0, 0.35);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+}

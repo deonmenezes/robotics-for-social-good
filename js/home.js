@@ -174,13 +174,15 @@ async function loadShowcase() {
                 var hasPreview = Boolean(previewPath);
                 var thumb = video.thumbnail ? 'assets/' + video.thumbnail : '';
                 var tags = (video.event_labels || []).slice(0, 4);
+                var categoryKey = video.use_case || 'general-robotics';
 
                 article.className = 'library-card';
+                article.dataset.category = categoryKey;
                 article.innerHTML = ''
-                    + '<div class="library-card-media">'
+                    + '<div class="library-card-media" data-category="' + categoryKey + '">'
                     + (thumb
                         ? '<img src="' + thumb + '" alt="' + prettifyName(video.filename) + '" loading="lazy">'
-                        : '<div class="media-fallback">No Thumb</div>')
+                        : '<div class="media-fallback">' + prettifyCategory(categoryKey) + '</div>')
                     + '</div>'
                     + '<div class="library-card-body">'
                     + '<div class="library-card-top">'
@@ -188,7 +190,7 @@ async function loadShowcase() {
                     + '<p class="library-card-kicker">' + (video.source || 'dataset') + '</p>'
                     + '<h3 class="library-card-title">' + prettifyName(video.filename) + '</h3>'
                     + '</div>'
-                    + '<span class="library-card-chip">' + prettifyCategory(video.use_case_title || video.use_case) + '</span>'
+                    + '<span class="library-card-chip" data-category="' + categoryKey + '">' + prettifyCategory(video.use_case_title || video.use_case) + '</span>'
                     + '</div>'
                     + '<p class="library-card-summary">' + cleanSummary(video.summary || video.nomadic_summary) + '</p>'
                     + (tags.length

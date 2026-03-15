@@ -19,10 +19,10 @@ if (mobileToggle && navLinks) {
         navLinks.style.left = '0';
         navLinks.style.right = '0';
         navLinks.style.flexDirection = 'column';
-        navLinks.style.background = 'var(--bg-secondary)';
+        navLinks.style.background = 'rgba(9, 9, 9, 0.96)';
         navLinks.style.padding = '24px';
         navLinks.style.gap = '16px';
-        navLinks.style.borderBottom = '1px solid var(--border)';
+        navLinks.style.borderBottom = '1px solid rgba(255, 255, 255, 0.12)';
     });
 }
 
