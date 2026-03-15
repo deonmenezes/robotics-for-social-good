@@ -3,26 +3,11 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException, RequestEntityTooLarge
-from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
-
-try:
-    from nomadicml import AnalysisType, NomadicML
-    NOMADICML_IMPORT_ERROR = None
-except Exception as error:
-    AnalysisType = None
-    NomadicML = None
-    NOMADICML_IMPORT_ERROR = str(error)
-
-try:
-    from supabase import create_client
-    SUPABASE_IMPORT_ERROR = None
-except Exception as error:
-    create_client = None
-    SUPABASE_IMPORT_ERROR = str(error)
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 250 * 1024 * 1024
@@ -47,6 +32,33 @@ CLASSIFICATION_PROMPT = (
     "3) How this could be applied for social good. "
     "4) Rate technical complexity and humanitarian impact."
 )
+
+
+def get_nomadic_client():
+    try:
+        from nomadicml import AnalysisType, NomadicML
+    except Exception as error:
+        return None, None, str(error)
+
+    api_key = os.environ.get("NOMADICML_API_KEY")
+    if not api_key:
+        return None, None, "NOMADICML_API_KEY is not configured on the server."
+
+    return NomadicML(api_key=api_key), AnalysisType, None
+
+
+def get_supabase_client():
+    url = os.environ.get("SUPABASE_URL")
+    key = os.environ.get("SUPABASE_KEY")
+    if not url or not key:
+        return None, "SUPABASE_URL or SUPABASE_KEY is not configured."
+
+    try:
+        from supabase import create_client
+    except Exception as error:
+        return None, str(error)
+
+    return create_client(url, key), None
 
 
 def infer_category(summary, fallback):
@@ -93,18 +105,18 @@ def build_result(filename, source, summary, events, confidence, category, raw_an
 
 
 def save_to_supabase(entry):
-    url = os.environ.get("SUPABASE_URL")
-    key = os.environ.get("SUPABASE_KEY")
-    if not url or not key or create_client is None:
-        return
-    client = create_client(url, key)
+    client, error = get_supabase_client()
+    if client is None:
+        return error
+
     try:
         client.table("video_labels").upsert(entry, on_conflict="filename").execute()
-    except Exception as error:
-        message = str(error)
+        return None
+    except Exception as exc:
+        message = str(exc)
         if "raw_analysis" in message or "upload_metadata" in message:
-            raise RuntimeError("Supabase schema is missing raw_analysis/upload_metadata. Re-run supabase_setup.sql.") from error
-        raise
+            return "Supabase schema is missing raw_analysis/upload_metadata. Re-run supabase_setup.sql."
+        return message
 
 
 @app.errorhandler(RequestEntityTooLarge)
@@ -131,34 +143,34 @@ def handle_unexpected_error(error):
     }), 500
 
 
-@app.post("/")
 @app.get("/")
-@app.post("/api/upload")
 @app.get("/api/upload")
-def upload():
-    if request.method == "GET":
-        return jsonify({
-            "ok": True,
-            "service": "upload",
-            "nomadicml_available": NomadicML is not None and AnalysisType is not None,
-            "supabase_available": create_client is not None,
-            "has_nomadic_api_key": bool(os.environ.get("NOMADICML_API_KEY")),
-            "has_supabase_url": bool(os.environ.get("SUPABASE_URL")),
-            "has_supabase_key": bool(os.environ.get("SUPABASE_KEY")),
-            "nomadicml_import_error": NOMADICML_IMPORT_ERROR,
-            "supabase_import_error": SUPABASE_IMPORT_ERROR,
-        })
+def health():
+    _, _, nomadic_error = get_nomadic_client()
+    supabase_client, supabase_error = get_supabase_client()
+    return jsonify({
+        "ok": True,
+        "service": "upload",
+        "nomadicml_available": nomadic_error is None,
+        "supabase_available": supabase_client is not None,
+        "has_nomadic_api_key": bool(os.environ.get("NOMADICML_API_KEY")),
+        "has_supabase_url": bool(os.environ.get("SUPABASE_URL")),
+        "has_supabase_key": bool(os.environ.get("SUPABASE_KEY")),
+        "nomadicml_import_error": nomadic_error,
+        "supabase_import_error": supabase_error,
+    })
 
-    if NomadicML is None or AnalysisType is None:
+
+@app.post("/")
+@app.post("/api/upload")
+def upload():
+    client, analysis_type, nomadic_error = get_nomadic_client()
+    if client is None or analysis_type is None:
         return jsonify({
             "ok": False,
-            "error": "Upload service dependency is not installed on the server.",
-            "details": NOMADICML_IMPORT_ERROR,
+            "error": "Upload service dependency is not available on the server.",
+            "details": nomadic_error,
         }), 500
-
-    api_key = os.environ.get("NOMADICML_API_KEY")
-    if not api_key:
-        return jsonify({"ok": False, "error": "NOMADICML_API_KEY is not configured on the server."}), 500
 
     uploaded_file = request.files.get("file")
     if not uploaded_file:
@@ -174,7 +186,6 @@ def upload():
         temp_path = temp_file.name
 
     try:
-        client = NomadicML(api_key=api_key)
         upload_result = client.upload(temp_path, folder="Robotics for Social Good Uploads")
         video_id = upload_result.get("video_id")
         if not video_id:
@@ -182,7 +193,7 @@ def upload():
 
         analysis = client.analyze(
             video_id,
-            analysis_type=AnalysisType.ASK,
+            analysis_type=analysis_type.ASK,
             custom_event=CLASSIFICATION_PROMPT,
             timeout=2400,
         )
@@ -213,8 +224,12 @@ def upload():
                 "size_bytes": os.path.getsize(temp_path),
             },
         )
-        save_to_supabase(entry)
-        return jsonify({"ok": True, "entry": entry})
+
+        supabase_error = save_to_supabase(entry)
+        response = {"ok": True, "entry": entry}
+        if supabase_error:
+            response["supabase_warning"] = supabase_error
+        return jsonify(response)
     finally:
         try:
             os.remove(temp_path)
