@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Data — Robotics for Social Good</title>
-    <meta name="description" content="Upload social good datasets and get compensated. Every contribution fuels humanitarian robotics research.">
+    <title>Upload — Robotics for Social Good</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="css/upload.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar scrolled" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
@@ -26,176 +24,175 @@
                 <li><a href="pricing.html">Pricing</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="upload.html" class="btn-create">+ Create</a>
-                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
-                    <span></span><span></span><span></span>
-                </button>
+                <span class="points-display" id="pointsDisplay">0 pts</span>
+                <a href="upload.html" class="btn-create">+ Upload</a>
             </div>
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <div class="page-header">
-        <div class="container">
-            <span class="section-tag">Contribute</span>
-            <h1>Donate Data <span class="gradient-text">& Get Paid</span></h1>
-            <p>Share your datasets and get compensated. Every contribution fuels humanitarian robotics research.</p>
-        </div>
-    </div>
-
-    <!-- Upload Section -->
-    <section class="section" style="padding-top: 0;">
-        <div class="container">
-            <div class="upload-area">
-                <div class="upload-card">
-                    <div class="upload-zone" id="uploadZone">
-                        <div class="upload-icon">
-                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
-                            </svg>
-                        </div>
-                        <h3>Drag & Drop Your Dataset</h3>
-                        <p>Support for video, CSV, JSON, sensor logs, ROSBAG, and image archives</p>
-                        <p class="upload-hint">or <span class="upload-browse">browse files</span></p>
-                        <input type="file" id="fileInput" multiple hidden>
-                    </div>
-                    <div class="upload-meta">
-                        <div class="form-group">
-                            <label>Dataset Name</label>
-                            <input type="text" placeholder="e.g., Urban Search & Rescue Drone Footage" id="datasetName">
-                        </div>
-                        <div class="form-group">
-                            <label>Category</label>
-                            <select id="datasetCategory">
-                                <option value="">Select a category...</option>
-                                <option value="disaster">Disaster Response</option>
-                                <option value="accessibility">Accessibility</option>
-                                <option value="agriculture">Sustainable Agriculture</option>
-                                <option value="healthcare">Healthcare</option>
-                                <option value="ocean">Ocean & Environment</option>
-                                <option value="education">Education</option>
-                                <option value="other">Other Social Good</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea placeholder="Describe your dataset, how it was collected, and its potential impact..." id="datasetDesc" rows="3"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Payment Section -->
-                <div class="payment-card">
-                    <h3>Data Contributor Compensation</h3>
-                    <p class="payment-desc">Get paid for high-quality social good data. Set your price or donate it freely.</p>
-
-                    <div class="payment-options">
-                        <label class="payment-option">
-                            <input type="radio" name="payment" value="free" checked>
-                            <div class="option-content">
-                                <span class="option-title">Free / Donation</span>
-                                <span class="option-desc">Contribute freely for maximum impact</span>
-                            </div>
-                        </label>
-                        <label class="payment-option">
-                            <input type="radio" name="payment" value="micro">
-                            <div class="option-content">
-                                <span class="option-title">Micro-payment ($1 - $10)</span>
-                                <span class="option-desc">Small fee per download of your dataset</span>
-                            </div>
-                        </label>
-                        <label class="payment-option">
-                            <input type="radio" name="payment" value="premium">
-                            <div class="option-content">
-                                <span class="option-title">Premium ($10 - $100)</span>
-                                <span class="option-desc">For large, high-quality curated datasets</span>
-                            </div>
-                        </label>
-                        <label class="payment-option">
-                            <input type="radio" name="payment" value="custom">
-                            <div class="option-content">
-                                <span class="option-title">Custom Price</span>
-                                <span class="option-desc">Set your own price</span>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div class="custom-price-input" id="customPriceInput" style="display:none;">
-                        <label>Your Price (USD)</label>
-                        <div class="price-input-wrapper">
-                            <span class="currency">$</span>
-                            <input type="number" placeholder="0.00" min="0" step="0.01" id="customPrice">
-                        </div>
-                    </div>
-
-                    <div class="payment-info">
-                        <div class="info-row">
-                            <span>Platform fee</span>
-                            <span>5% (funds platform operations)</span>
-                        </div>
-                        <div class="info-row">
-                            <span>Impact fund</span>
-                            <span>10% goes to underserved communities</span>
-                        </div>
-                        <div class="info-row highlight">
-                            <span>You receive</span>
-                            <span>85% of each sale</span>
-                        </div>
-                    </div>
-
-                    <div class="payout-method">
-                        <label>Payout Email (PayPal / Stripe)</label>
-                        <input type="email" placeholder="your@email.com" id="payoutEmail">
-                    </div>
-
-                    <button class="btn btn-primary btn-lg btn-full" id="submitDataset">
-                        <span>Submit Dataset</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
+    <main class="upload-page">
+        <!-- Points Banner -->
+        <div class="points-banner">
+            <div class="points-card">
+                <div class="points-big" id="totalPoints">0</div>
+                <div class="points-label">Good Deed Points</div>
+            </div>
+            <div class="points-info">
+                <h2>Upload data. Do good. Earn points.</h2>
+                <p>Every dataset you upload earns points based on quality and social impact. NomadicML analyzes your data automatically. Points convert to real payouts.</p>
+                <div class="points-tiers">
+                    <span class="tier">+50 pts per upload</span>
+                    <span class="tier">+100 pts if AI-verified</span>
+                    <span class="tier">+200 pts for high-impact</span>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <span class="logo-icon">⚙️</span>
-                    <span class="logo-text" style="font-weight:700;font-size:1.05rem;">Robotics for Social Good</span>
-                    <p>Building autonomous systems that serve humanity. Open source. Community driven.</p>
+        <!-- Upload Flow -->
+        <div class="upload-flow">
+            <!-- Step 1: Drop files -->
+            <div class="upload-step" id="step1">
+                <div class="step-badge">Step 1</div>
+                <h3>Drop your data</h3>
+                <div class="drop-zone" id="dropZone">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                    </svg>
+                    <p class="drop-main">Drag & drop files here</p>
+                    <p class="drop-sub">Video, CSV, JSON, images, ROSBAG — up to 500MB</p>
+                    <button class="btn-browse" id="browseBtn">Browse Files</button>
+                    <input type="file" id="fileInput" multiple hidden>
                 </div>
-                <div class="footer-links">
-                    <h4>Platform</h4>
-                    <a href="index.html">Home</a>
-                    <a href="explore.html">Explore Data</a>
-                    <a href="upload.html">Upload Data</a>
-                    <a href="impact.html">Impact Stories</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Community</h4>
-                    <a href="#">GitHub</a>
-                    <a href="#">Discord</a>
-                    <a href="#">Blog</a>
-                    <a href="#">Research Papers</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Data Ethics Policy</a>
-                    <a href="#">Cookie Policy</a>
+                <div class="file-list" id="fileList"></div>
+            </div>
+
+            <!-- Step 2: Details -->
+            <div class="upload-step" id="step2">
+                <div class="step-badge">Step 2</div>
+                <h3>Describe your dataset</h3>
+                <div class="form-stack">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="datasetName" placeholder="e.g., Waste sorting video from community center">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <div class="category-pills" id="categoryPills">
+                            <button class="cat-pill" data-cat="waste-segregation">♻️ Waste</button>
+                            <button class="cat-pill" data-cat="food-outreach">🍕 Food Aid</button>
+                            <button class="cat-pill" data-cat="elder-support">🧓 Elder Care</button>
+                            <button class="cat-pill" data-cat="disaster-response">🚑 Disaster</button>
+                            <button class="cat-pill" data-cat="healthcare">🏥 Healthcare</button>
+                            <button class="cat-pill" data-cat="agriculture">🌾 Agriculture</button>
+                            <button class="cat-pill" data-cat="education">📚 Education</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description <span class="optional">(optional)</span></label>
+                        <textarea id="datasetDesc" rows="3" placeholder="How was this data collected? What can it be used for?"></textarea>
+                    </div>
                 </div>
             </div>
+
+            <!-- Step 3: Payout -->
+            <div class="upload-step" id="step3">
+                <div class="step-badge">Step 3</div>
+                <h3>Get paid</h3>
+                <div class="payout-options">
+                    <label class="payout-opt selected" data-val="free">
+                        <input type="radio" name="payout" value="free" checked>
+                        <div class="opt-body">
+                            <strong>Free</strong>
+                            <span>Donate freely — max points bonus (+50 extra)</span>
+                        </div>
+                    </label>
+                    <label class="payout-opt" data-val="paid">
+                        <input type="radio" name="payout" value="paid">
+                        <div class="opt-body">
+                            <strong>Get Paid</strong>
+                            <span>Set a price — 85% to you, 10% to communities, 5% platform</span>
+                        </div>
+                    </label>
+                </div>
+                <div class="paid-fields" id="paidFields" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Price (USD)</label>
+                            <input type="number" id="priceInput" placeholder="10.00" min="1" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Payout email</label>
+                            <input type="email" id="payoutEmail" placeholder="you@email.com">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="upload-actions">
+                <button class="btn-upload" id="submitBtn" disabled>
+                    <span id="submitText">Upload & Analyze with NomadicML</span>
+                </button>
+                <button class="btn-live" id="liveBtn" style="display:none;">
+                    Go Live on Explore
+                </button>
+            </div>
+        </div>
+
+        <!-- Analysis Results (shown after submit) -->
+        <div class="analysis-panel" id="analysisPanel" style="display:none;">
+            <div class="analysis-header">
+                <div class="analysis-icon">🔬</div>
+                <div>
+                    <h3>NomadicML Analysis</h3>
+                    <p class="analysis-status" id="analysisStatus">Analyzing...</p>
+                </div>
+            </div>
+            <div class="analysis-progress" id="analysisProgress">
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            </div>
+            <div class="analysis-results" id="analysisResults" style="display:none;">
+                <div class="result-row">
+                    <span class="result-label">Category</span>
+                    <span class="result-value" id="resultCategory">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Confidence</span>
+                    <span class="result-value" id="resultConfidence">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Events Detected</span>
+                    <span class="result-value" id="resultEvents">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Summary</span>
+                    <span class="result-value result-summary" id="resultSummary">—</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Points Earned</span>
+                    <span class="result-value result-points" id="resultPoints">—</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Uploads -->
+        <div class="recent-section">
+            <h3>Your Uploads</h3>
+            <div class="recent-list" id="recentList">
+                <div class="recent-empty">No uploads yet. Be the first to contribute!</div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer" style="margin-top:60px;">
+        <div class="container">
             <div class="footer-bottom">
-                <p>&copy; 2026 Robotics for Social Good. Open source under MIT License.</p>
+                <p>&copy; 2026 Robotics for Social Good</p>
                 <span class="footer-powered">Powered by <strong>NomadicML</strong></span>
             </div>
         </div>
     </footer>
 
-    <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
     <script src="js/upload.js"></script>
