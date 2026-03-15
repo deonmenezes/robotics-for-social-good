@@ -70,7 +70,7 @@ def collection_id_from_env(api_key):
 
 
 def collection_name_from_env():
-    return os.environ.get("NOMADICML_COLLECTION_NAME", "NomadicML Video Library")
+    return os.environ.get("NOMADICML_COLLECTION_NAME", "Robotics for Social Good Library")
 
 
 def configured_video_files():

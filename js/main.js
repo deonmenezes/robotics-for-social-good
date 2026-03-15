@@ -281,7 +281,7 @@ async function loadShowcase() {
                             : `<div class="no-thumb">${CATEGORY_EMOJI[video.use_case] || '🤖'}</div>`
                         }
                         ${video.status === 'classified'
-                            ? '<div class="showcase-nomadic-badge">Labeled by NomadicML</div>'
+                            ? '<div class="showcase-nomadic-badge">Labeled</div>'
                             : ''
                         }
                         <div class="showcase-category-tag">${video.use_case_title || video.use_case}</div>

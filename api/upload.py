@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from flask import Flask, jsonify, request
+from werkzeug.exceptions import HTTPException, RequestEntityTooLarge
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
@@ -20,6 +21,7 @@ except ImportError:
     create_client = None
 
 app = Flask(__name__)
+app.config["MAX_CONTENT_LENGTH"] = 250 * 1024 * 1024
 
 CATEGORY_TITLES = {
     "waste-segregation": "Waste Segregation",
@@ -93,19 +95,43 @@ def save_to_supabase(entry):
     client.table("video_labels").upsert(entry, on_conflict="filename").execute()
 
 
+@app.errorhandler(RequestEntityTooLarge)
+def handle_file_too_large(_error):
+    return jsonify({
+        "ok": False,
+        "error": "Upload too large. Keep files under 250MB for the web uploader.",
+    }), 413
+
+
+@app.errorhandler(HTTPException)
+def handle_http_error(error):
+    return jsonify({
+        "ok": False,
+        "error": error.description or "Request failed.",
+    }), error.code
+
+
+@app.errorhandler(Exception)
+def handle_unexpected_error(error):
+    return jsonify({
+        "ok": False,
+        "error": str(error) or "Unexpected server error.",
+    }), 500
+
+
 @app.post("/")
 @app.post("/api/upload")
 def upload():
     if NomadicML is None or AnalysisType is None:
-        return jsonify({"error": "nomadicml package is not installed on the server."}), 500
+        return jsonify({"ok": False, "error": "Upload service dependency is not installed on the server."}), 500
 
     api_key = os.environ.get("NOMADICML_API_KEY")
     if not api_key:
-        return jsonify({"error": "NOMADICML_API_KEY is not configured on the server."}), 500
+        return jsonify({"ok": False, "error": "NOMADICML_API_KEY is not configured on the server."}), 500
 
     uploaded_file = request.files.get("file")
     if not uploaded_file:
-        return jsonify({"error": "No file uploaded."}), 400
+        return jsonify({"ok": False, "error": "No file uploaded."}), 400
 
     dataset_name = (request.form.get("name") or uploaded_file.filename or "upload").strip()
     selected_category = (request.form.get("category") or "general-robotics").strip()
@@ -121,7 +147,7 @@ def upload():
         upload_result = client.upload(temp_path, folder="Robotics for Social Good Uploads")
         video_id = upload_result.get("video_id")
         if not video_id:
-            return jsonify({"error": "Upload succeeded but no video_id was returned."}), 502
+            return jsonify({"ok": False, "error": "Upload succeeded but no video_id was returned."}), 502
 
         analysis = client.analyze(
             video_id,
@@ -149,8 +175,6 @@ def upload():
         )
         save_to_supabase(entry)
         return jsonify({"ok": True, "entry": entry})
-    except Exception as exc:
-        return jsonify({"error": str(exc)}), 500
     finally:
         try:
             os.remove(temp_path)

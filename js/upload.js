@@ -26,6 +26,19 @@ const progressFill = document.getElementById('progressFill');
 updatePointsDisplay();
 renderRecentUploads();
 
+async function readJsonResponse(response) {
+    const text = await response.text();
+    if (!text) {
+        return {};
+    }
+
+    try {
+        return JSON.parse(text);
+    } catch (_error) {
+        throw new Error(text);
+    }
+}
+
 browseBtn.addEventListener('click', event => {
     event.stopPropagation();
     fileInput.click();
@@ -134,7 +147,7 @@ submitBtn.addEventListener('click', async () => {
             body: formData,
         });
 
-        const payload = await response.json();
+        const payload = await readJsonResponse(response);
         if (!response.ok || !payload.ok) {
             throw new Error(payload.error || 'Upload failed.');
         }
