@@ -17,8 +17,8 @@ LOG_FILE="/home/thor/robotics-for-social-good/improve.log"
 echo "[$TIMESTAMP] Running hourly improvement check..." >> "$LOG_FILE"
 
 # 1. Update stats with slightly increasing numbers to simulate growth
-HOUR=$(date +%H)
-DAY=$(date +%j)
+HOUR=$((10#$(date +%H)))
+DAY=$((10#$(date +%j)))
 BASE_DATASETS=$((12400 + DAY * 3 + HOUR))
 BASE_PROJECTS=$((340 + DAY / 10))
 BASE_COUNTRIES=$((89 + DAY / 30))
