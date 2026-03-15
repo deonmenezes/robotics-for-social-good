@@ -15,7 +15,7 @@
       "Waste Segregation"
     ],
     "analyzed_at": "2026-03-15T06:53:23.520843+00:00",
-    "thumbnail": null
+    "thumbnail": "IMG_3404_thumb.png"
   },
   {
     "filename": "IMG_3405.MOV",
@@ -32,7 +32,7 @@
       "Waste Segregation"
     ],
     "analyzed_at": "2026-03-15T06:54:47.601816+00:00",
-    "thumbnail": null
+    "thumbnail": "IMG_3405_thumb.png"
   },
   {
     "filename": "IMG_3406.MOV",
@@ -49,7 +49,7 @@
       "Waste Segregation"
     ],
     "analyzed_at": "2026-03-15T06:56:08.902132+00:00",
-    "thumbnail": null
+    "thumbnail": "IMG_3406_thumb.png"
   },
   {
     "filename": "IMG_3407.MOV",
@@ -66,7 +66,7 @@
       "Waste Segregation"
     ],
     "analyzed_at": "2026-03-15T06:56:51.747475+00:00",
-    "thumbnail": null
+    "thumbnail": "IMG_3407_thumb.png"
   },
   {
     "filename": "IMG_3408.MOV",
@@ -84,7 +84,7 @@
       "Support for person with mobility strain"
     ],
     "analyzed_at": "2026-03-15T06:58:17.113675+00:00",
-    "thumbnail": null
+    "thumbnail": "IMG_3408_thumb.png"
   },
   {
     "filename": "IMG_3410.MOV",
@@ -101,7 +101,7 @@
       "Food Assistance"
     ],
     "analyzed_at": "2026-03-15T06:59:06.555024+00:00",
-    "thumbnail": null
+    "thumbnail": "IMG_3410_thumb.png"
   },
   {
     "filename": "IMG_3411.MOV",
@@ -118,13 +118,13 @@
       "Support for Elderly with Mobility Strain"
     ],
     "analyzed_at": "2026-03-15T07:00:28.903983+00:00",
-    "thumbnail": null
+    "thumbnail": "IMG_3411_thumb.png"
   },
   {
     "filename": "g1_backflip.mp4",
     "source": "home-robotics",
     "path": "/home/thor/g1_backflip.mp4",
-    "thumbnail": "g1_backflip_frame_0.png",
+    "thumbnail": "g1_backflip_thumb.png",
     "status": "classified",
     "use_case": "disaster-response",
     "use_case_title": "Disaster Response",
@@ -141,7 +141,7 @@
     "filename": "g1_backflip_omnixtreme.mp4",
     "source": "home-robotics",
     "path": "/home/thor/g1_backflip_omnixtreme.mp4",
-    "thumbnail": "g1_backflip_frame_0.png",
+    "thumbnail": "g1_backflip_omnixtreme_thumb.png",
     "status": "classified",
     "use_case": "disaster-response",
     "use_case_title": "Disaster Response",
@@ -158,7 +158,7 @@
     "filename": "g1_kitchen_dance_in_da_party_001__A464.mp4",
     "source": "home-robotics",
     "path": "/home/thor/g1_kitchen_dance_in_da_party_001__A464.mp4",
-    "thumbnail": "g1_kitchen_frame_0.png",
+    "thumbnail": "g1_kitchen_dance_in_da_party_001__A464_thumb.png",
     "status": "classified",
     "use_case": "disaster-response",
     "use_case_title": "Disaster Response",
@@ -176,7 +176,7 @@
     "filename": "g1_kitchen_tired_one_leg_jumping_R_001__A359.mp4",
     "source": "home-robotics",
     "path": "/home/thor/g1_kitchen_tired_one_leg_jumping_R_001__A359.mp4",
-    "thumbnail": "g1_kitchen_frame_0.png",
+    "thumbnail": "g1_kitchen_tired_one_leg_jumping_R_001__A359_thumb.png",
     "status": "classified",
     "use_case": "disaster-response",
     "use_case_title": "Disaster Response",
@@ -193,7 +193,7 @@
     "filename": "g1_kitchen_walk.mp4",
     "source": "home-robotics",
     "path": "/home/thor/g1_kitchen_walk.mp4",
-    "thumbnail": "g1_kitchen_frame_0.png",
+    "thumbnail": "g1_kitchen_walk_thumb.png",
     "status": "classified",
     "use_case": "disaster-response",
     "use_case_title": "Disaster Response",
@@ -211,7 +211,7 @@
     "filename": "g1_simulation.mp4",
     "source": "home-robotics",
     "path": "/home/thor/g1_simulation.mp4",
-    "thumbnail": null,
+    "thumbnail": "g1_simulation_thumb.png",
     "status": "classified",
     "use_case": "disaster-response",
     "use_case_title": "Disaster Response",
@@ -228,7 +228,7 @@
     "filename": "g1_sonic_cpp_video.mp4",
     "source": "home-robotics",
     "path": "/home/thor/g1_sonic_cpp_video.mp4",
-    "thumbnail": "g1_sonic_stand_frame.png",
+    "thumbnail": "g1_sonic_cpp_video_thumb.png",
     "status": "classified",
     "use_case": "disaster-response",
     "use_case_title": "Disaster Response",
@@ -245,7 +245,7 @@
     "filename": "g1_sonic_stand.mp4",
     "source": "home-robotics",
     "path": "/home/thor/g1_sonic_stand.mp4",
-    "thumbnail": "g1_sonic_stand_frame.png",
+    "thumbnail": "g1_sonic_stand_thumb.png",
     "status": "classified",
     "use_case": "disaster-response",
     "use_case_title": "Disaster Response",
@@ -262,7 +262,7 @@
     "filename": "g1_sonic_walk.mp4",
     "source": "home-robotics",
     "path": "/home/thor/g1_sonic_walk.mp4",
-    "thumbnail": "g1_sonic_stand_frame.png",
+    "thumbnail": "g1_sonic_walk_thumb.png",
     "status": "classified",
     "use_case": "disaster-response",
     "use_case_title": "Disaster Response",
@@ -279,7 +279,7 @@
     "filename": "g1_walk_unitree.mp4",
     "source": "home-robotics",
     "path": "/home/thor/g1_walk_unitree.mp4",
-    "thumbnail": null,
+    "thumbnail": "g1_walk_unitree_thumb.png",
     "status": "classified",
     "use_case": "disaster-response",
     "use_case_title": "Disaster Response",
@@ -296,7 +296,7 @@
     "filename": "g1_walking.mp4",
     "source": "home-robotics",
     "path": "/home/thor/g1_walking.mp4",
-    "thumbnail": null,
+    "thumbnail": "g1_walking_thumb.png",
     "status": "classified",
     "use_case": "robotics-research",
     "use_case_title": "Robotics Research",
@@ -313,7 +313,7 @@
     "filename": "go2_trained.mp4",
     "source": "home-robotics",
     "path": "/home/thor/go2_trained.mp4",
-    "thumbnail": null,
+    "thumbnail": "go2_trained_thumb.png",
     "status": "classified",
     "use_case": "disaster-response",
     "use_case_title": "Disaster Response",

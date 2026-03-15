@@ -47,8 +47,10 @@ function createDataCard(item) {
 
     const labels = (item.event_labels || []).slice(0, 2);
     const confidence = item.confidence || 0;
+    const thumb = item.thumbnail ? `assets/${item.thumbnail}` : null;
 
     card.innerHTML = `
+        ${thumb ? `<div class="data-card-thumb"><img src="${thumb}" alt="${item.filename}" loading="lazy"></div>` : ''}
         <div class="data-card-top">
             <span class="data-card-name">${prettifyName(item.filename)}</span>
             <span class="data-card-status ${item.status || 'pending'}">${item.status === 'classified' ? 'Labeled' : 'Pending'}</span>

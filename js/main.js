@@ -210,20 +210,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 });
 
 // ===== VIDEO SHOWCASE =====
-const THUMB_MAP = {
-    'g1_backflip.mp4': 'assets/g1_backflip_frame_0.png',
-    'g1_backflip_omnixtreme.mp4': 'assets/g1_backflip_frame_1.png',
-    'g1_kitchen_dance_in_da_party_001__A464.mp4': 'assets/g1_kitchen_frame_0.png',
-    'g1_kitchen_tired_one_leg_jumping_R_001__A359.mp4': 'assets/g1_kitchen_frame_1.png',
-    'g1_kitchen_walk.mp4': 'assets/g1_kitchen_frame_0.png',
-    'g1_simulation.mp4': 'assets/g1_frame_000.png',
-    'g1_sonic_cpp_video.mp4': 'assets/sonic_final_working.png',
-    'g1_sonic_stand.mp4': 'assets/g1_sonic_stand_frame.png',
-    'g1_sonic_walk.mp4': 'assets/g1_sonic_walk_frame.png',
-    'g1_walk_unitree.mp4': 'assets/unitree_walk_0.png',
-    'g1_walking.mp4': 'assets/walk_v3_0.png',
-    'go2_trained.mp4': 'assets/g1_frame_000.png',
-};
+// Thumbnails are now loaded from labels.json thumbnail field
 
 const CATEGORY_EMOJI = {
     'waste-segregation': '♻️',
@@ -281,7 +268,7 @@ async function loadShowcase() {
             document.getElementById('showcaseEmpty').style.display = filtered.length === 0 ? 'block' : 'none';
 
             filtered.forEach(video => {
-                const thumb = THUMB_MAP[video.filename] || null;
+                const thumb = video.thumbnail ? `assets/${video.thumbnail}` : null;
                 const confidence = video.confidence || 0;
                 const card = document.createElement('div');
                 card.className = 'showcase-card reveal visible';

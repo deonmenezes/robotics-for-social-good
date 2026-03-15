@@ -176,12 +176,30 @@
 
 .data-card {
     background: var(--bg-card);
-    padding: 20px 24px;
+    padding: 0;
     cursor: pointer;
     transition: var(--transition);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0;
+}
+
+.data-card-thumb {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    background: var(--bg-secondary);
+}
+
+.data-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.data-card:hover .data-card-thumb img {
+    transform: scale(1.05);
 }
 
 .data-card:hover {
@@ -192,6 +210,15 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    padding: 14px 16px 0;
+}
+
+.data-card-summary {
+    padding: 0 16px;
+}
+
+.data-card-meta {
+    padding: 0 16px 14px;
 }
 
 .data-card-name {
