@@ -50,7 +50,7 @@ function createThumbCard(item) {
         <div class="thumb-img">
             ${thumb ? `<img src="${thumb}" alt="${prettifyName(item.filename)}" loading="lazy">` : `<div class="no-img">📊</div>`}
             <video class="thumb-video" src="${preview}" muted loop playsinline preload="none"></video>
-            <span class="thumb-badge">NomadicML</span>
+            <span class="thumb-badge">Labeled</span>
             <span class="thumb-play">▶</span>
         </div>
         <div class="thumb-body">

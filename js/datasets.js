@@ -36,6 +36,13 @@
 
     async function loadDatasetCollection() {
         try {
+            var apiPayload = await fetchJson('/api/datasets');
+            return normalizePayload(apiPayload, apiPayload.collection);
+        } catch (error) {
+            console.warn('API dataset feed unavailable, falling back to static files.', error);
+        }
+
+        try {
             var manifest = await fetchJson('data/manifest.json');
             var params = new URLSearchParams(window.location.search);
             var requestedId = params.get('dataset');

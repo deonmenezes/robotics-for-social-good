@@ -1,8 +1,8 @@
 :root {
     --bg-primary: #090909;
     --bg-secondary: #111111;
-    --bg-card: #171717;
-    --bg-card-hover: #1d1d1d;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f4f4f4;
     --border: rgba(255, 255, 255, 0.12);
     --text-primary: #f6f1e8;
     --text-secondary: #d6cdc1;
@@ -124,7 +124,7 @@ body {
 .marketplace-toolbar,
 .marketplace-stat {
     background: var(--bg-card);
-    border-color: var(--border);
+    border: 2px solid #111111;
     box-shadow: var(--shadow);
 }
 
@@ -134,7 +134,7 @@ body {
 .pipeline-step:hover,
 .impact-story-card:hover,
 .thumb-card:hover {
-    border-color: rgba(255, 255, 255, 0.22);
+    border-color: #111111;
 }
 
 .pricing-card.featured {
@@ -145,6 +145,46 @@ body {
 .pricing-badge {
     background: var(--accent-1);
     color: #111111;
+}
+
+.feature-card,
+.impact-card,
+.pricing-card,
+.upload-card,
+.payment-card,
+.cta-card,
+.impact-story-card,
+.modal,
+.upload-step,
+.analysis-panel,
+.recent-empty,
+.recent-item,
+.points-banner,
+.marketplace-shell,
+.marketplace-toolbar,
+.marketplace-stat {
+    color: #111111;
+}
+
+.feature-card p,
+.impact-card p,
+.pricing-header p,
+.pricing-features li,
+.story-content p,
+.story-location,
+.page-header p,
+.cta-card p,
+.result-summary,
+.recent-meta,
+.points-info p,
+.opt-body span,
+.detail-section p {
+    color: #4f4f4f;
+}
+
+.impact-tag,
+.section-tag {
+    border-color: #111111;
 }
 
 .page-header {
@@ -164,9 +204,10 @@ body {
 .form-group select,
 .form-group textarea,
 .cta-form input {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--border);
-    border-radius: 14px;
+    background: #ffffff;
+    border: 2px solid #111111;
+    border-radius: 0;
+    color: #111111;
 }
 
 .toast {

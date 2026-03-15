@@ -168,7 +168,8 @@
     padding: 22px;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 0;
-    background: #151515;
+    background: #ffffff;
+    color: #111111;
     box-shadow: var(--shadow);
     overflow: hidden;
 }
@@ -185,7 +186,7 @@
 .hero-panel-head span,
 .stat-label,
 .hero-note {
-    color: var(--muted);
+    color: #666666;
 }
 
 .hero-panel-head strong,
@@ -193,6 +194,7 @@
     font-family: 'Space Grotesk', sans-serif;
     font-size: 1.35rem;
     text-transform: uppercase;
+    color: #111111;
 }
 
 .hero-stats {
@@ -206,7 +208,7 @@
     justify-content: space-between;
     gap: 16px;
     padding: 14px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid #dddddd;
 }
 
 .hero-note {
@@ -286,7 +288,7 @@
     gap: 18px;
     padding: 18px;
     border-radius: 0;
-    background: rgba(255, 255, 255, 0.04);
+    background: #ffffff;
 }
 
 .library-filters,
@@ -299,9 +301,9 @@
 .home-page .filter-btn,
 .home-page .sort-btn {
     padding: 10px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--paper);
+    border: 2px solid #111111;
+    background: #ffffff;
+    color: #111111;
     border-radius: 0;
     font-size: 0.78rem;
     font-weight: 700;
@@ -312,9 +314,9 @@
 .home-page .sort-btn.active,
 .home-page .filter-btn:hover,
 .home-page .sort-btn:hover {
-    background: rgba(244, 196, 0, 0.14);
-    border-color: rgba(244, 196, 0, 0.36);
-    color: #fff5cd;
+    background: #f4c400;
+    border-color: #111111;
+    color: #111111;
 }
 
 .library-grid {
@@ -328,7 +330,8 @@
     display: grid;
     grid-template-columns: 240px minmax(0, 1fr);
     border-radius: 0;
-    background: rgba(18, 18, 18, 0.96);
+    background: #ffffff;
+    border: 2px solid #111111;
     box-shadow: var(--shadow);
     overflow: hidden;
     transition: transform 0.24s ease, border-color 0.24s ease;
@@ -336,7 +339,7 @@
 
 .library-card:hover {
     transform: translateY(-3px);
-    border-color: rgba(255, 255, 255, 0.22);
+    border-color: #111111;
 }
 
 .library-card::after {
@@ -445,6 +448,7 @@
     display: grid;
     gap: 14px;
     padding: 20px 22px 24px;
+    color: #111111;
 }
 
 .library-card-top {
@@ -471,7 +475,7 @@
 }
 
 .library-card-kicker {
-    color: var(--muted);
+    color: #666666;
 }
 
 .library-card-chip {
@@ -485,7 +489,7 @@
 }
 
 .library-card-summary {
-    color: #ddd5ca;
+    color: #444444;
     line-height: 1.64;
 }
 
@@ -504,8 +508,8 @@
     padding: 7px 10px;
     border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: 0;
-    background: rgba(255, 255, 255, 0.03);
-    color: #ebe4da;
+    background: #f3f3f3;
+    color: #444444;
 }
 
 .library-card-actions a {
@@ -534,10 +538,10 @@
 
 .home-page .showcase-empty {
     padding: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 2px solid #111111;
     border-radius: 0;
-    background: rgba(255, 255, 255, 0.04);
-    color: var(--ink);
+    background: #ffffff;
+    color: #111111;
     box-shadow: var(--shadow);
 }
 
