@@ -29,6 +29,11 @@ function cleanSummary(s) {
     return s.replace(/\\n/g, ' ').replace(/\[[\d:-]+\]/g, '').replace(/\s+/g, ' ').trim();
 }
 
+function getPreviewPath(filename) {
+    const stem = filename.replace(/\.(mp4|mov|avi|mkv|webm|MOV)$/i, '');
+    return `assets/previews/${stem}.mp4`;
+}
+
 function createThumbCard(item) {
     const card = document.createElement('div');
     card.className = 'thumb-card';
@@ -36,6 +41,7 @@ function createThumbCard(item) {
     card.onclick = () => openDetail(item);
 
     const thumb = item.thumbnail ? `assets/${item.thumbnail}` : null;
+    const preview = getPreviewPath(item.filename);
     const cat = CATEGORY_LABELS[item.use_case] || item.use_case;
     const conf = item.confidence || 0;
     const labels = (item.event_labels || []).slice(0, 2);
@@ -43,7 +49,9 @@ function createThumbCard(item) {
     card.innerHTML = `
         <div class="thumb-img">
             ${thumb ? `<img src="${thumb}" alt="${prettifyName(item.filename)}" loading="lazy">` : `<div class="no-img">📊</div>`}
+            <video class="thumb-video" src="${preview}" muted loop playsinline preload="none"></video>
             <span class="thumb-badge">NomadicML</span>
+            <span class="thumb-play">▶</span>
         </div>
         <div class="thumb-body">
             <div class="thumb-title">${prettifyName(item.filename)}</div>
@@ -54,6 +62,31 @@ function createThumbCard(item) {
             ${labels.length ? `<div class="thumb-labels">${labels.map(l => `<span class="thumb-label">${l}</span>`).join('')}</div>` : ''}
         </div>
     `;
+
+    // Hover to play preview
+    const video = card.querySelector('.thumb-video');
+    const img = card.querySelector('.thumb-img img');
+    const playIcon = card.querySelector('.thumb-play');
+
+    card.addEventListener('mouseenter', () => {
+        if (video) {
+            video.style.opacity = '1';
+            if (img) img.style.opacity = '0';
+            if (playIcon) playIcon.style.opacity = '0';
+            video.play().catch(() => {});
+        }
+    });
+
+    card.addEventListener('mouseleave', () => {
+        if (video) {
+            video.pause();
+            video.currentTime = 0;
+            video.style.opacity = '0';
+            if (img) img.style.opacity = '1';
+            if (playIcon) playIcon.style.opacity = '1';
+        }
+    });
+
     return card;
 }
 
@@ -66,8 +99,12 @@ function openDetail(item) {
     const labels = item.event_labels || [];
     const summary = cleanSummary(item.summary || item.nomadic_summary);
 
+    const preview = getPreviewPath(item.filename);
+
     content.innerHTML = `
-        ${thumb ? `<div class="detail-hero"><img src="${thumb}" alt=""></div>` : ''}
+        <div class="detail-hero">
+            <video src="${preview}" controls autoplay loop muted playsinline poster="${thumb || ''}"></video>
+        </div>
         <div class="detail-body">
             <div class="detail-title">${prettifyName(item.filename)}</div>
             <div class="detail-subtitle">${cat} · ${item.source || 'community'} · ${item.event_count || 0} events</div>
