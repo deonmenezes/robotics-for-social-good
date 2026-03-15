@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Open Data — Robotics for Social Good</title>
+    <meta name="description" content="Browse open-source labeled datasets for waste segregation, homeless food assistance, and elderly mobility support. Free to download and use.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/explore.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">⚙️</span>
+                <span class="logo-text">Robotics for Social Good</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="explore.html" style="color:var(--text-primary)">Explore Data</a></li>
+                <li><a href="index.html#upload">Upload</a></li>
+                <li><a href="index.html#pricing">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="index.html#upload" class="btn btn-primary">Contribute Data</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="explore-hero">
+        <div class="container">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Open Source &middot; Free to Use &middot; CC-BY-4.0
+            </div>
+            <h1 class="hero-title">Explore <span class="gradient-text">Open Data</span></h1>
+            <p class="hero-subtitle">Browse and download community-contributed datasets labeled by NomadicML for three key social good robotics tracks. All data is open source and free to use.</p>
+            <div class="explore-stats">
+                <div class="stat-pill">
+                    <span class="stat-pill-number" id="totalDatasets">0</span>
+                    <span>Total Datasets</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-pill-number" id="totalLabeled">0</span>
+                    <span>AI-Labeled</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-pill-number">3</span>
+                    <span>Social Good Tracks</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Track Cards -->
+    <section class="section" id="tracks">
+        <div class="container">
+            <!-- Track 1: Waste Segregation -->
+            <div class="track-section" id="track-waste">
+                <div class="track-header">
+                    <div class="track-icon-wrap waste">
+                        <span class="track-icon">♻️</span>
+                    </div>
+                    <div class="track-info">
+                        <h2>Waste Segregation Intelligence</h2>
+                        <p>Datasets for training robots to sort biodegradable vs reusable materials — protecting sanitation workers and improving circular reuse.</p>
+                    </div>
+                    <div class="track-badge">
+                        <span class="track-count" id="wasteCount">0</span> datasets
+                    </div>
+                </div>
+                <div class="track-details">
+                    <div class="detail-chips">
+                        <span class="chip">Video Data</span>
+                        <span class="chip">Object Detection</span>
+                        <span class="chip">Material Classification</span>
+                        <span class="chip">Bin Sorting</span>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <span class="detail-label">Robot Opportunity</span>
+                            <span class="detail-value">Sort items, flag contamination, move bins, assist with repetitive sanitation tasks</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Community Benefit</span>
+                            <span class="detail-value">Cleaner public spaces, better recycling quality, safer waste handling</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="data-grid" id="wasteGrid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- Track 2: Homeless Food Assistance -->
+            <div class="track-section" id="track-food">
+                <div class="track-header">
+                    <div class="track-icon-wrap food">
+                        <span class="track-icon">🍕</span>
+                    </div>
+                    <div class="track-info">
+                        <h2>Homeless Food Assistance</h2>
+                        <p>Datasets for dignified food outreach — training robots to transport meals, assist queues, and improve service operations for unhoused communities.</p>
+                    </div>
+                    <div class="track-badge">
+                        <span class="track-count" id="foodCount">0</span> datasets
+                    </div>
+                </div>
+                <div class="track-details">
+                    <div class="detail-chips">
+                        <span class="chip">Video Data</span>
+                        <span class="chip">Human Activity</span>
+                        <span class="chip">Logistics</span>
+                        <span class="chip">Food Distribution</span>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <span class="detail-label">Robot Opportunity</span>
+                            <span class="detail-value">Transport meals, restock stations, support volunteers in care and dignity decisions</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Community Benefit</span>
+                            <span class="detail-value">More reliable meal delivery, less volunteer strain, improved service reach</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="data-grid" id="foodGrid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- Track 3: Elder Support -->
+            <div class="track-section" id="track-elder">
+                <div class="track-header">
+                    <div class="track-icon-wrap elder">
+                        <span class="track-icon">🧓</span>
+                    </div>
+                    <div class="track-info">
+                        <h2>Elder Mobility & Back Pain Support</h2>
+                        <p>Datasets for assistive robotics — training robots to support guided movement, reduce strain, and preserve human-centered elder care.</p>
+                    </div>
+                    <div class="track-badge">
+                        <span class="track-count" id="elderCount">0</span> datasets
+                    </div>
+                </div>
+                <div class="track-details">
+                    <div class="detail-chips">
+                        <span class="chip">Video Data</span>
+                        <span class="chip">Mobility Analysis</span>
+                        <span class="chip">Posture Detection</span>
+                        <span class="chip">Assistive Tasks</span>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <span class="detail-label">Robot Opportunity</span>
+                            <span class="detail-value">Fetch items, support guided movement, reduce physically repetitive tasks around elder care</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Community Benefit</span>
+                            <span class="detail-value">Safer daily routines, reduced strain, more time for human caregivers</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="data-grid" id="elderGrid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- Robotics Research (bonus) -->
+            <div class="track-section" id="track-robotics">
+                <div class="track-header">
+                    <div class="track-icon-wrap robotics">
+                        <span class="track-icon">🤖</span>
+                    </div>
+                    <div class="track-info">
+                        <h2>Robotics Simulation & Research</h2>
+                        <p>Humanoid and quadruped robot simulation data — locomotion, manipulation, and disaster response training from Unitree G1 and Go2 platforms.</p>
+                    </div>
+                    <div class="track-badge">
+                        <span class="track-count" id="roboticsCount">0</span> datasets
+                    </div>
+                </div>
+                <div class="track-details">
+                    <div class="detail-chips">
+                        <span class="chip">Simulation</span>
+                        <span class="chip">Locomotion</span>
+                        <span class="chip">Humanoid</span>
+                        <span class="chip">Quadruped</span>
+                    </div>
+                </div>
+                <div class="data-grid" id="roboticsGrid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta-section">
+        <div class="container">
+            <div class="cta-card">
+                <h2>Have Data to Contribute?</h2>
+                <p>Upload your own social good datasets and help train the next generation of humanitarian robots.</p>
+                <a href="index.html#upload" class="btn btn-primary btn-lg">Upload Data</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Robotics for Social Good. All datasets CC-BY-4.0. Open source under MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Dataset Detail Modal -->
+    <div class="modal-overlay" id="datasetModal">
+        <div class="modal modal-lg">
+            <button class="modal-close" id="dataModalClose">&times;</button>
+            <div id="datasetModalContent"></div>
+        </div>
+    </div>
+
+    <script src="js/explore.js"></script>
+</body>
+</html>
