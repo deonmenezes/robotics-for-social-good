@@ -16,10 +16,10 @@ except ImportError:
 from nomadicml import AnalysisType, NomadicML
 
 try:
-    import boto3
-    HAS_BOTO3 = True
+    from supabase import create_client
+    HAS_SUPABASE = True
 except ImportError:
-    HAS_BOTO3 = False
+    HAS_SUPABASE = False
 
 BASE_DIR = Path(__file__).resolve().parent
 LABELS_FILE = BASE_DIR / "labels.json"
@@ -264,68 +264,69 @@ def main():
     save_labels(labels)
     print(f"\nDone! {len(labels)} total videos labeled. Results in {LABELS_FILE}")
 
-    # Sync to S3 if AWS credentials are available
-    sync_to_s3()
+    # Sync to Supabase if credentials are available
+    sync_to_supabase()
 
 
-def sync_to_s3():
-    """Upload labels.json and assets to S3 for backend persistence."""
-    bucket = os.environ.get("AWS_S3_BUCKET", "robotics-for-social-good")
-    region = os.environ.get("AWS_DEFAULT_REGION", "us-east-1")
+def sync_to_supabase():
+    """Upload labels and thumbnails to Supabase for backend persistence."""
+    url = os.environ.get("SUPABASE_URL")
+    key = os.environ.get("SUPABASE_KEY")
 
-    if not os.environ.get("AWS_ACCESS_KEY_ID") or not os.environ.get("AWS_SECRET_ACCESS_KEY"):
-        print("AWS credentials not set, skipping S3 sync.")
+    if not url or not key:
+        print("Supabase credentials not set, skipping sync.")
         return
 
-    if not HAS_BOTO3:
-        print("boto3 not installed, skipping S3 sync. Run: pip install boto3")
+    if not HAS_SUPABASE:
+        print("supabase not installed, skipping sync. Run: pip install supabase")
         return
 
     try:
-        s3 = boto3.client(
-            "s3",
-            region_name=region,
-            aws_access_key_id=os.environ["AWS_ACCESS_KEY_ID"],
-            aws_secret_access_key=os.environ["AWS_SECRET_ACCESS_KEY"],
-        )
+        client = create_client(url, key)
 
-        # Ensure bucket exists
-        try:
-            s3.head_bucket(Bucket=bucket)
-        except Exception:
-            print(f"Creating S3 bucket: {bucket}")
-            try:
-                if region == "us-east-1":
-                    s3.create_bucket(Bucket=bucket)
-                else:
-                    s3.create_bucket(
-                        Bucket=bucket,
-                        CreateBucketConfiguration={"LocationConstraint": region},
-                    )
-            except Exception as e:
-                print(f"Could not create bucket: {e}")
-                return
+        # Load current labels
+        labels = load_labels()
 
-        # Upload labels.json
-        s3.upload_file(
-            str(LABELS_FILE), bucket, "data/labels.json",
-            ExtraArgs={"ContentType": "application/json"},
-        )
-        print(f"Uploaded labels.json to s3://{bucket}/data/labels.json")
+        # Upsert each label into the video_labels table
+        for entry in labels:
+            row = {
+                "filename": entry["filename"],
+                "source": entry.get("source"),
+                "path": entry.get("path"),
+                "status": entry.get("status"),
+                "use_case": entry.get("use_case"),
+                "use_case_title": entry.get("use_case_title"),
+                "summary": entry.get("summary"),
+                "nomadic_summary": entry.get("nomadic_summary"),
+                "confidence": entry.get("confidence"),
+                "event_count": entry.get("event_count", 0),
+                "event_labels": entry.get("event_labels", []),
+                "analyzed_at": entry.get("analyzed_at"),
+                "thumbnail": entry.get("thumbnail"),
+            }
+            client.table("video_labels").upsert(
+                row, on_conflict="filename"
+            ).execute()
 
-        # Upload thumbnails
+        print(f"Upserted {len(labels)} labels to Supabase.")
+
+        # Upload thumbnails to storage
         assets_dir = BASE_DIR / "assets"
         if assets_dir.exists():
+            uploaded = 0
             for img in assets_dir.glob("*.png"):
-                s3.upload_file(
-                    str(img), bucket, f"assets/{img.name}",
-                    ExtraArgs={"ContentType": "image/png"},
-                )
-            print(f"Uploaded {len(list(assets_dir.glob('*.png')))} thumbnails to S3")
+                with open(img, "rb") as f:
+                    client.storage.from_("thumbnails").upload(
+                        img.name,
+                        f.read(),
+                        file_options={"content-type": "image/png", "upsert": "true"},
+                    )
+                uploaded += 1
+            print(f"Uploaded {uploaded} thumbnails to Supabase Storage.")
 
-        print("S3 sync complete.")
+        print("Supabase sync complete.")
     except Exception as e:
-        print(f"S3 sync error: {e}")
+        print(f"Supabase sync error: {e}")
 
 
 if __name__ == "__main__":
