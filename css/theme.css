@@ -1,12 +1,12 @@
 :root {
-    --bg-primary: #090909;
-    --bg-secondary: #111111;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
     --bg-card: #ffffff;
     --bg-card-hover: #f4f4f4;
-    --border: rgba(255, 255, 255, 0.12);
-    --text-primary: #f6f1e8;
-    --text-secondary: #d6cdc1;
-    --text-muted: #9f9589;
+    --border: rgba(17, 17, 17, 0.14);
+    --text-primary: #111111;
+    --text-secondary: #444444;
+    --text-muted: #6b6b6b;
     --accent: #f4c400;
     --accent-1: #f4c400;
     --accent-2: #f4c400;
@@ -20,15 +20,15 @@
 
 body {
     font-family: 'IBM Plex Sans', sans-serif;
-    background: #0b0b0b;
+    background: #ffffff;
     color: var(--text-primary);
 }
 
 .navbar {
-    background: rgba(11, 11, 11, 0.96);
-    border-bottom: 1px solid var(--border);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.12);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .nav-logo,
@@ -71,7 +71,7 @@ body {
 
 .nav-links a:hover,
 .nav-links a.nav-active {
-    color: #ffffff;
+    color: #111111;
 }
 
 .btn-create,
@@ -83,8 +83,8 @@ body {
 }
 
 .btn-secondary {
-    background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.18);
+    background: #ffffff;
+    border: 2px solid #111111;
     border-radius: 0;
 }
 
@@ -99,9 +99,9 @@ body {
 }
 
 .section-tag {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff1b6;
+    background: #ffffff;
+    border: 2px solid #111111;
+    color: #111111;
 }
 
 .feature-card,
@@ -188,16 +188,16 @@ body {
 }
 
 .page-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.08);
 }
 
 .footer {
-    background: rgba(8, 8, 8, 0.7);
-    border-top: 1px solid var(--border);
+    background: #ffffff;
+    border-top: 1px solid rgba(17, 17, 17, 0.12);
 }
 
 .footer-powered strong {
-    color: #fff1b6;
+    color: #111111;
 }
 
 .form-group input,
@@ -211,7 +211,8 @@ body {
 }
 
 .toast {
-    background: #151515;
-    border: 1px solid rgba(244, 196, 0, 0.35);
+    background: #ffffff;
+    border: 2px solid #111111;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+    color: #111111;
 }
