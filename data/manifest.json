@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-03-15T18:54:02.413597+00:00",
+  "default_collection": "nomadic-local",
+  "collections": [
+    {
+      "id": "nomadic-local",
+      "name": "NomadicML Video Library",
+      "api_key_fingerprint": "local",
+      "generated_at": "2026-03-15T18:54:02.413597+00:00",
+      "video_count": 19,
+      "path": "data/collections/nomadic-local.json"
+    }
+  ]
+}

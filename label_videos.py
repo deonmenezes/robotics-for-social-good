@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Label videos using the NomadicML API for Robotics for Social Good."""
 
+import argparse
+import hashlib
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -13,8 +16,6 @@ try:
 except ImportError:
     pass
 
-from nomadicml import AnalysisType, NomadicML
-
 try:
     from supabase import create_client
     HAS_SUPABASE = True
@@ -23,12 +24,11 @@ except ImportError:
 
 BASE_DIR = Path(__file__).resolve().parent
 LABELS_FILE = BASE_DIR / "labels.json"
+DATA_DIR = BASE_DIR / "data"
+COLLECTIONS_DIR = DATA_DIR / "collections"
 HOME = Path.home()
+VIDEO_PATTERNS = ("*.mp4", "*.MP4", "*.mov", "*.MOV", "*.avi", "*.AVI", "*.mkv", "*.MKV", "*.webm", "*.WEBM")
 
-# Videos to label: home dir MP4s (robotics simulations)
-ROBOT_VIDEOS = sorted(HOME.glob("*.mp4"))
-
-# Classification prompt for social good robotics
 CLASSIFICATION_PROMPT = (
     "Analyze this robotics video. Describe: "
     "1) What type of robot or simulation is shown. "
@@ -41,46 +41,93 @@ CLASSIFICATION_PROMPT = (
 PROXY_KEYS = ["HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "http_proxy", "https_proxy", "all_proxy"]
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Label videos and export public dataset collections.")
+    parser.add_argument(
+        "--export-only",
+        action="store_true",
+        help="Skip NomadicML labeling and only export the public collection files from labels.json.",
+    )
+    return parser.parse_args()
+
+
+def slugify(value):
+    text = re.sub(r"[^a-zA-Z0-9]+", "-", str(value).strip().lower()).strip("-")
+    return text or "local-library"
+
+
+def api_key_fingerprint(api_key):
+    if not api_key:
+        return "local"
+    return hashlib.sha256(api_key.encode("utf-8")).hexdigest()[:10]
+
+
+def collection_id_from_env(api_key):
+    explicit_slug = os.environ.get("NOMADICML_COLLECTION_SLUG")
+    if explicit_slug:
+        return slugify(explicit_slug)
+    return f"nomadic-{api_key_fingerprint(api_key)}"
+
+
+def collection_name_from_env():
+    return os.environ.get("NOMADICML_COLLECTION_NAME", "NomadicML Video Library")
+
+
+def configured_video_files():
+    video_dir = Path(os.environ.get("NOMADICML_VIDEO_DIR", str(HOME))).expanduser()
+    videos = []
+    for pattern in VIDEO_PATTERNS:
+        videos.extend(video_dir.glob(pattern))
+    return sorted({path.resolve() for path in videos})
+
+
+def showcase_path():
+    configured = os.environ.get("NOMADICML_SHOWCASE_PATH")
+    if configured:
+        return Path(configured).expanduser()
+    return HOME / "nomadic-training-set" / "data" / "showcase_library.json"
+
+
 def clear_proxies():
     saved = {}
-    for k in PROXY_KEYS:
-        if k in os.environ:
-            saved[k] = os.environ.pop(k)
+    for key in PROXY_KEYS:
+        if key in os.environ:
+            saved[key] = os.environ.pop(key)
     return saved
 
 
 def restore_proxies(saved):
-    for k, v in saved.items():
-        os.environ[k] = v
+    for key, value in saved.items():
+        os.environ[key] = value
 
 
 def load_labels():
     if LABELS_FILE.exists():
-        with open(LABELS_FILE) as f:
-            return json.load(f)
+        with open(LABELS_FILE, encoding="utf-8") as handle:
+            return json.load(handle)
     return []
 
 
 def save_labels(labels):
-    with open(LABELS_FILE, "w") as f:
-        json.dump(labels, f, indent=2)
+    with open(LABELS_FILE, "w", encoding="utf-8") as handle:
+        json.dump(labels, handle, indent=2)
 
 
-def import_existing_showcase():
-    """Import already-labeled data from nomadic-training-set."""
-    showcase_path = HOME / "nomadic-training-set" / "data" / "showcase_library.json"
-    if not showcase_path.exists():
+def import_existing_showcase(owner_fingerprint):
+    path = showcase_path()
+    if not path.exists():
         return []
 
-    with open(showcase_path) as f:
-        showcase = json.load(f)
+    with open(path, encoding="utf-8") as handle:
+        showcase = json.load(handle)
 
     entries = []
     for item in showcase:
+        filename = item["filename"]
         entries.append({
-            "filename": item["filename"],
+            "filename": filename,
             "source": "nomadic-training-set",
-            "path": str(HOME / "nomadic-training-set" / item["filename"]),
+            "path": str(path.parent.parent / filename),
             "status": item.get("status", "classified"),
             "use_case": item.get("use_case_slug", "needs-review"),
             "use_case_title": item.get("use_case_title", ""),
@@ -91,43 +138,40 @@ def import_existing_showcase():
             "event_labels": item.get("event_labels", []),
             "analyzed_at": item.get("analyzed_at"),
             "thumbnail": None,
+            "owner_key_fingerprint": owner_fingerprint,
         })
     return entries
 
 
 def find_thumbnail(video_path):
-    """Find a frame PNG for a given video."""
     stem = Path(video_path).stem
-    home = Path.home()
+    assets_dir = BASE_DIR / "assets"
 
-    # Try common patterns
     patterns = [
+        f"{stem}_thumb.png",
         f"{stem}_frame_0.png",
         f"{stem}_frame_000.png",
         f"{stem}_0.png",
         f"{stem}.png",
     ]
 
-    # Also try partial matches
-    for p in patterns:
-        candidate = home / p
+    for pattern in patterns:
+        candidate = assets_dir / pattern
         if candidate.exists():
             return candidate.name
 
-    # Search for any frame file containing the video name prefix
     prefix = stem.split("_")[0] + "_" + stem.split("_")[1] if "_" in stem else stem
-    for f in sorted(home.glob(f"{prefix}*frame*.png")):
-        return f.name
-    for f in sorted(home.glob(f"{prefix}*_0.png")):
-        return f.name
-    for f in sorted(home.glob(f"{stem}*.png")):
-        return f.name
+    for file_path in sorted(assets_dir.glob(f"{prefix}*frame*.png")):
+        return file_path.name
+    for file_path in sorted(assets_dir.glob(f"{prefix}*_0.png")):
+        return file_path.name
+    for file_path in sorted(assets_dir.glob(f"{stem}*.png")):
+        return file_path.name
 
     return None
 
 
-def label_video(client, video_path):
-    """Upload and analyze a single video with NomadicML."""
+def label_video(client, analysis_type, video_path):
     print(f"  Uploading {video_path}...")
     upload_result = client.upload(str(video_path), folder="Robotics for Social Good")
     video_id = upload_result.get("video_id")
@@ -137,41 +181,40 @@ def label_video(client, video_path):
     print(f"  Analyzing (video_id={video_id})...")
     analysis = client.analyze(
         video_id,
-        analysis_type=AnalysisType.ASK,
+        analysis_type=analysis_type,
         custom_event=CLASSIFICATION_PROMPT,
         timeout=2400,
     )
 
     summary = analysis.get("summary", "")
     events = analysis.get("events", [])
-    event_labels = [e.get("label", "") for e in events if e.get("label")]
-    confidences = [float(e["confidence"]) for e in events if e.get("confidence") is not None]
+    event_labels = [event.get("label", "") for event in events if event.get("label")]
+    confidences = [float(event["confidence"]) for event in events if event.get("confidence") is not None]
     avg_confidence = round(sum(confidences) / len(confidences) * 100) if confidences else None
 
-    # Infer social good category from analysis text
     text = summary.lower()
-    if any(w in text for w in ["disaster", "rescue", "earthquake", "emergency"]):
+    if any(word in text for word in ["disaster", "rescue", "earthquake", "emergency"]):
         use_case = "disaster-response"
         use_case_title = "Disaster Response"
-    elif any(w in text for w in ["elder", "mobility", "back pain", "assist", "walking support"]):
+    elif any(word in text for word in ["elder", "mobility", "back pain", "assist", "walking support"]):
         use_case = "elder-support"
         use_case_title = "Elder Mobility Support"
-    elif any(w in text for w in ["food", "meal", "homeless", "hunger"]):
+    elif any(word in text for word in ["food", "meal", "homeless", "hunger"]):
         use_case = "food-outreach"
         use_case_title = "Food Assistance"
-    elif any(w in text for w in ["waste", "recycl", "biodegradable", "sorting"]):
+    elif any(word in text for word in ["waste", "recycl", "biodegradable", "sorting"]):
         use_case = "waste-segregation"
         use_case_title = "Waste Segregation"
-    elif any(w in text for w in ["farm", "agriculture", "crop", "plant"]):
+    elif any(word in text for word in ["farm", "agriculture", "crop", "plant"]):
         use_case = "agriculture"
         use_case_title = "Sustainable Agriculture"
-    elif any(w in text for w in ["ocean", "water", "marine", "pollution"]):
+    elif any(word in text for word in ["ocean", "water", "marine", "pollution"]):
         use_case = "ocean-cleanup"
-        use_case_title = "Ocean & Environment"
-    elif any(w in text for w in ["healthcare", "medical", "patient", "hospital"]):
+        use_case_title = "Ocean And Environment"
+    elif any(word in text for word in ["healthcare", "medical", "patient", "hospital"]):
         use_case = "healthcare"
         use_case_title = "Healthcare"
-    elif any(w in text for w in ["humanoid", "bipedal", "walking", "locomotion", "backflip", "dance"]):
+    elif any(word in text for word in ["humanoid", "bipedal", "walking", "locomotion", "backflip", "dance"]):
         use_case = "robotics-research"
         use_case_title = "Robotics Research"
     else:
@@ -191,85 +234,62 @@ def label_video(client, video_path):
     }
 
 
-def main():
-    api_key = os.environ.get("NOMADICML_API_KEY")
-    if not api_key:
-        print("ERROR: Set NOMADICML_API_KEY environment variable")
-        sys.exit(1)
+def export_public_collections(labels, api_key):
+    fingerprint = api_key_fingerprint(api_key)
+    collection_id = collection_id_from_env(api_key)
+    collection_name = collection_name_from_env()
+    generated_at = datetime.now(timezone.utc).isoformat()
 
-    labels = load_labels()
-    labeled_files = {entry["filename"] for entry in labels}
+    normalized_labels = []
+    for entry in labels:
+        cloned = dict(entry)
+        cloned.setdefault("owner_key_fingerprint", fingerprint)
+        normalized_labels.append(cloned)
 
-    # Import existing showcase labels if not already present
-    showcase_entries = import_existing_showcase()
-    for entry in showcase_entries:
-        if entry["filename"] not in labeled_files:
-            entry["thumbnail"] = find_thumbnail(entry["path"])
-            labels.append(entry)
-            labeled_files.add(entry["filename"])
-            print(f"Imported: {entry['filename']} -> {entry['use_case']}")
+    normalized_labels.sort(
+        key=lambda item: (
+            -(item.get("confidence") or 0),
+            -(item.get("event_count") or 0),
+            item.get("filename", ""),
+        )
+    )
 
-    # Find unlabeled robot videos
-    unlabeled = [v for v in ROBOT_VIDEOS if v.name not in labeled_files]
+    COLLECTIONS_DIR.mkdir(parents=True, exist_ok=True)
+    collection_path = COLLECTIONS_DIR / f"{collection_id}.json"
+    relative_collection_path = collection_path.relative_to(BASE_DIR).as_posix()
 
-    if not unlabeled:
-        print(f"All {len(labels)} videos already labeled. Nothing to do.")
-        save_labels(labels)
-        return
+    collection_payload = {
+        "collection": {
+            "id": collection_id,
+            "name": collection_name,
+            "api_key_fingerprint": fingerprint,
+            "generated_at": generated_at,
+            "video_count": len(normalized_labels),
+            "path": relative_collection_path,
+        },
+        "videos": normalized_labels,
+    }
 
-    print(f"Found {len(unlabeled)} unlabeled videos to process...")
+    with open(collection_path, "w", encoding="utf-8") as handle:
+        json.dump(collection_payload, handle, indent=2)
 
-    saved_proxies = clear_proxies()
-    try:
-        client = NomadicML(api_key=api_key)
+    manifest_payload = {
+        "generated_at": generated_at,
+        "default_collection": collection_id,
+        "collections": [collection_payload["collection"]],
+    }
 
-        for video_path in unlabeled:
-            print(f"\nProcessing: {video_path.name}")
-            try:
-                result = label_video(client, video_path)
-                thumbnail = find_thumbnail(video_path)
-                entry = {
-                    "filename": video_path.name,
-                    "source": "home-robotics",
-                    "path": str(video_path),
-                    "thumbnail": thumbnail,
-                    **result,
-                }
-                labels.append(entry)
-                labeled_files.add(video_path.name)
-                print(f"  -> {result['use_case_title']} (confidence: {result['confidence']})")
-                # Save after each to preserve progress
-                save_labels(labels)
-            except Exception as e:
-                print(f"  ERROR: {e}")
-                labels.append({
-                    "filename": video_path.name,
-                    "source": "home-robotics",
-                    "path": str(video_path),
-                    "status": "error",
-                    "use_case": "needs-review",
-                    "use_case_title": "Needs Review",
-                    "summary": f"Labeling failed: {e}",
-                    "nomadic_summary": None,
-                    "confidence": None,
-                    "event_count": 0,
-                    "event_labels": [],
-                    "analyzed_at": datetime.now(timezone.utc).isoformat(),
-                    "thumbnail": find_thumbnail(video_path),
-                })
-                save_labels(labels)
-    finally:
-        restore_proxies(saved_proxies)
+    with open(DATA_DIR / "manifest.json", "w", encoding="utf-8") as handle:
+        json.dump(manifest_payload, handle, indent=2)
 
-    save_labels(labels)
-    print(f"\nDone! {len(labels)} total videos labeled. Results in {LABELS_FILE}")
+    with open(DATA_DIR / "latest.json", "w", encoding="utf-8") as handle:
+        json.dump(collection_payload, handle, indent=2)
 
-    # Sync to Supabase if credentials are available
-    sync_to_supabase()
+    print(f"Exported collection manifest to {DATA_DIR / 'manifest.json'}")
+    print(f"Exported collection dataset to {collection_path}")
 
 
 def sync_to_supabase():
-    """Upload labels and thumbnails to Supabase for backend persistence."""
     url = os.environ.get("SUPABASE_URL")
     key = os.environ.get("SUPABASE_KEY")
 
@@ -283,11 +303,8 @@ def sync_to_supabase():
 
     try:
         client = create_client(url, key)
-
-        # Load current labels
         labels = load_labels()
 
-        # Upsert each label into the video_labels table
         for entry in labels:
             row = {
                 "filename": entry["filename"],
@@ -303,30 +320,122 @@ def sync_to_supabase():
                 "event_labels": entry.get("event_labels", []),
                 "analyzed_at": entry.get("analyzed_at"),
                 "thumbnail": entry.get("thumbnail"),
+                "owner_key_fingerprint": entry.get("owner_key_fingerprint"),
             }
-            client.table("video_labels").upsert(
-                row, on_conflict="filename"
-            ).execute()
+            client.table("video_labels").upsert(row, on_conflict="filename").execute()
 
         print(f"Upserted {len(labels)} labels to Supabase.")
 
-        # Upload thumbnails to storage
         assets_dir = BASE_DIR / "assets"
         if assets_dir.exists():
             uploaded = 0
-            for img in assets_dir.glob("*.png"):
-                with open(img, "rb") as f:
+            for image_path in assets_dir.glob("*.png"):
+                with open(image_path, "rb") as handle:
                     client.storage.from_("thumbnails").upload(
-                        img.name,
-                        f.read(),
+                        image_path.name,
+                        handle.read(),
                         file_options={"content-type": "image/png", "upsert": "true"},
                     )
                 uploaded += 1
             print(f"Uploaded {uploaded} thumbnails to Supabase Storage.")
 
         print("Supabase sync complete.")
-    except Exception as e:
-        print(f"Supabase sync error: {e}")
+    except Exception as error:
+        print(f"Supabase sync error: {error}")
+
+
+def ensure_owner_fingerprint(labels, fingerprint):
+    for entry in labels:
+        entry.setdefault("owner_key_fingerprint", fingerprint)
+
+
+def main():
+    args = parse_args()
+    api_key = os.environ.get("NOMADICML_API_KEY")
+    fingerprint = api_key_fingerprint(api_key)
+    labels = load_labels()
+    ensure_owner_fingerprint(labels, fingerprint)
+
+    if args.export_only:
+        export_public_collections(labels, api_key)
+        return
+
+    if not api_key:
+        print("ERROR: Set NOMADICML_API_KEY environment variable")
+        sys.exit(1)
+
+    try:
+        from nomadicml import AnalysisType, NomadicML
+    except ImportError:
+        print("ERROR: nomadicml package is not installed. Run: pip install -r requirements.txt")
+        sys.exit(1)
+
+    labeled_files = {entry["filename"] for entry in labels}
+
+    showcase_entries = import_existing_showcase(fingerprint)
+    for entry in showcase_entries:
+        if entry["filename"] not in labeled_files:
+            entry["thumbnail"] = find_thumbnail(entry["path"])
+            labels.append(entry)
+            labeled_files.add(entry["filename"])
+            print(f"Imported: {entry['filename']} -> {entry['use_case']}")
+
+    unlabeled = [video for video in configured_video_files() if video.name not in labeled_files]
+
+    if not unlabeled:
+        print(f"All {len(labels)} videos already labeled. Nothing to do.")
+        save_labels(labels)
+        export_public_collections(labels, api_key)
+        return
+
+    print(f"Found {len(unlabeled)} unlabeled videos to process...")
+
+    saved_proxies = clear_proxies()
+    try:
+        client = NomadicML(api_key=api_key)
+        for video_path in unlabeled:
+            print(f"\nProcessing: {video_path.name}")
+            try:
+                result = label_video(client, AnalysisType.ASK, video_path)
+                entry = {
+                    "filename": video_path.name,
+                    "source": os.environ.get("NOMADICML_SOURCE_NAME", "configured-video-dir"),
+                    "path": str(video_path),
+                    "thumbnail": find_thumbnail(video_path),
+                    "owner_key_fingerprint": fingerprint,
+                    **result,
+                }
+                labels.append(entry)
+                labeled_files.add(video_path.name)
+                print(f"  -> {result['use_case_title']} (confidence: {result['confidence']})")
+                save_labels(labels)
+            except Exception as error:
+                print(f"  ERROR: {error}")
+                labels.append({
+                    "filename": video_path.name,
+                    "source": os.environ.get("NOMADICML_SOURCE_NAME", "configured-video-dir"),
+                    "path": str(video_path),
+                    "status": "error",
+                    "use_case": "needs-review",
+                    "use_case_title": "Needs Review",
+                    "summary": f"Labeling failed: {error}",
+                    "nomadic_summary": None,
+                    "confidence": None,
+                    "event_count": 0,
+                    "event_labels": [],
+                    "analyzed_at": datetime.now(timezone.utc).isoformat(),
+                    "thumbnail": find_thumbnail(video_path),
+                    "owner_key_fingerprint": fingerprint,
+                })
+                save_labels(labels)
+    finally:
+        restore_proxies(saved_proxies)
+
+    save_labels(labels)
+    print(f"\nDone! {len(labels)} total videos labeled. Results in {LABELS_FILE}")
+
+    export_public_collections(labels, api_key)
+    sync_to_supabase()
 
 
 if __name__ == "__main__":

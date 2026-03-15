@@ -1,5 +1,3 @@
-// ===== EXPLORE PAGE =====
-
 const ROBOTICS_CASES = ['disaster-response', 'robotics-research', 'general-robotics', 'agriculture', 'ocean-cleanup', 'healthcare'];
 
 const CATEGORY_LABELS = {
@@ -30,6 +28,9 @@ function cleanSummary(s) {
 }
 
 function getPreviewPath(filename) {
+    if (window.RFSGDatasets) {
+        return window.RFSGDatasets.getPreviewPath(filename);
+    }
     const stem = filename.replace(/\.(mp4|mov|avi|mkv|webm|MOV)$/i, '');
     return `assets/previews/${stem}.mp4`;
 }
@@ -38,7 +39,6 @@ function createThumbCard(item) {
     const card = document.createElement('div');
     card.className = 'thumb-card';
     card.dataset.category = item.use_case;
-    card.onclick = () => openDetail(item);
 
     const thumb = item.thumbnail ? `assets/${item.thumbnail}` : null;
     const preview = getPreviewPath(item.filename);
@@ -90,7 +90,7 @@ function createThumbCard(item) {
     return card;
 }
 
-function openDetail(item) {
+function openDetail(item, collection) {
     const modal = document.getElementById('datasetModal');
     const content = document.getElementById('detailContent');
     const thumb = item.thumbnail ? `assets/${item.thumbnail}` : null;
@@ -146,8 +146,8 @@ function openDetail(item) {
             ` : ''}
 
             <div class="detail-actions">
-                <a href="labels.json" download class="btn btn-white">Download JSON</a>
-                <a href="index.html#upload" class="btn btn-outline">Donate Data & Get Paid</a>
+                <a href="${(collection && collection.path) || 'labels.json'}" download class="btn btn-white">Download JSON</a>
+                <a href="upload.html" class="btn btn-outline">Donate Data & Get Paid</a>
             </div>
         </div>
     `;
@@ -156,9 +156,11 @@ function openDetail(item) {
 
 async function loadData() {
     try {
-        const res = await fetch('labels.json');
-        if (!res.ok) throw new Error();
-        const labels = await res.json();
+        const payload = window.RFSGDatasets
+            ? await window.RFSGDatasets.loadDatasetCollection()
+            : { videos: await (await fetch('labels.json')).json(), collection: { path: 'labels.json' } };
+        const labels = payload.videos || [];
+        const collection = payload.collection || { path: 'labels.json' };
         const grid = document.getElementById('thumbGrid');
 
         document.getElementById('totalCount').textContent = `${labels.length} datasets`;
@@ -174,7 +176,11 @@ async function loadData() {
                 grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--text-muted);font-size:0.85rem;">No datasets in this category yet.</div>';
                 return;
             }
-            filtered.forEach(item => grid.appendChild(createThumbCard(item)));
+            filtered.forEach(item => {
+                const card = createThumbCard(item);
+                card.onclick = () => openDetail(item, collection);
+                grid.appendChild(card);
+            });
         }
 
         render('all');

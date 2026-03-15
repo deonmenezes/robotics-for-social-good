@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Robotics for Social Good</title>
-    <meta name="description" content="Browse robotics datasets for social good, search labeled footage, and find the right training data for humanitarian robotics work.">
+    <meta name="description" content="A simple browse-first library for robotics videos labeled for social good use cases.">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <nav class="navbar" id="navbar">
+<body class="home-page">
+    <nav class="navbar home-nav scrolled" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <span class="logo-icon">R</span>
+                <span class="logo-mark">R</span>
                 <span class="logo-text">Robotics for Social Good</span>
             </a>
             <ul class="nav-links">
@@ -21,10 +23,9 @@
                 <li><a href="explore.html">Explore</a></li>
                 <li><a href="upload.html">Upload</a></li>
                 <li><a href="impact.html">Impact</a></li>
-                <li><a href="pricing.html">Pricing</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="upload.html" class="btn-create">+ Upload</a>
+                <a href="upload.html" class="btn-create home-create">Upload Data</a>
                 <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
                     <span></span><span></span><span></span>
                 </button>
@@ -32,151 +33,96 @@
         </div>
     </nav>
 
-    <section class="hero hero-compact" id="hero">
-        <div class="hero-bg">
-            <div class="grid-overlay"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-badge">
-                <span class="badge-dot"></span>
-                Searchable dataset marketplace for humanitarian robotics
-            </div>
-            <h1 class="hero-title">
-                <span class="gradient-text">Robotics for</span><br>
-                Social Good
-            </h1>
-            <p class="hero-subtitle">
-                The home page is now centered on the video showcase. Search labeled robotics footage, filter by mission area, and compare datasets in one clean browse flow.
-            </p>
-            <div class="hero-cta">
-                <a href="#showcase" class="btn btn-primary btn-lg">
-                    <span>Browse Datasets</span>
-                </a>
-                <a href="upload.html" class="btn btn-secondary btn-lg">
-                    <span>Upload Data</span>
-                </a>
-            </div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-number" data-target="12400">0</span>
-                    <span class="stat-label">Datasets Uploaded</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number" data-target="340">0</span>
-                    <span class="stat-label">Active Projects</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number" data-target="89">0</span>
-                    <span class="stat-label">Countries Impacted</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section marketplace-section" id="showcase">
-        <div class="container">
-            <div class="marketplace-shell">
-                <div class="section-header marketplace-header">
-                    <span class="section-tag">Labeled Datasets</span>
-                    <h2 class="section-title">Video <span class="gradient-text">Showcase</span></h2>
-                    <p class="section-desc">A plain, searchable dataset list built around fast comparison instead of stacked promo sections and card-heavy marketing blocks.</p>
-                </div>
-
-                <div class="marketplace-intro">
-                    <div class="marketplace-stat">
-                        <span class="marketplace-stat-label">Curated library</span>
-                        <strong id="marketplaceDatasetCount">0 datasets</strong>
+    <main>
+        <section class="home-hero">
+            <div class="home-container">
+                <div class="hero-copy">
+                    <p class="hero-kicker">NomadicML-labeled robotics footage</p>
+                    <h1>Clean dataset browsing, no fake AI fluff.</h1>
+                    <p class="hero-text">
+                        Search videos, filter by mission, and open the exact labeled dataset collection generated from your local `.env` setup.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="hero-button hero-button-solid" href="#library">Browse Library</a>
+                        <a class="hero-button hero-button-ghost" href="upload.html">Upload More Footage</a>
                     </div>
-                    <div class="marketplace-stat">
-                        <span class="marketplace-stat-label">Review standard</span>
-                        <strong>NomadicML labeled</strong>
+                </div>
+                <div class="hero-panel">
+                    <div class="hero-panel-head">
+                        <span>Active collection</span>
+                        <strong id="activeCollectionName">Loading...</strong>
                     </div>
-                    <div class="marketplace-stat">
-                        <span class="marketplace-stat-label">Home page focus</span>
-                        <strong>Search, filter, compare</strong>
+                    <div class="hero-stats">
+                        <article>
+                            <span class="stat-label">Videos</span>
+                            <strong id="heroDatasetCount">0</strong>
+                        </article>
+                        <article>
+                            <span class="stat-label">Categories</span>
+                            <strong id="heroCategoryCount">0</strong>
+                        </article>
+                        <article>
+                            <span class="stat-label">Key fingerprint</span>
+                            <strong id="heroFingerprint">local</strong>
+                        </article>
+                    </div>
+                    <p class="hero-note" id="heroCollectionNote">
+                        Public pages only read generated JSON. Your actual API key stays in `.env`.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="library-section" id="library">
+            <div class="home-container">
+                <div class="library-head">
+                    <div>
+                        <p class="library-kicker">Reference-driven layout</p>
+                        <h2>One search bar. One filter row. Straight to the videos.</h2>
+                    </div>
+                    <div class="library-meta">
+                        <span id="libraryResults">Loading dataset...</span>
+                        <a href="explore.html" class="library-link">Open full explore view</a>
                     </div>
                 </div>
 
-                <form class="marketplace-search" id="showcaseSearchForm">
-                    <label class="search-label" for="showcaseSearchInput">Search the library</label>
-                    <div class="marketplace-search-row">
-                        <div class="search-input-wrap">
-                            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <path d="m21 21-4.35-4.35"></path>
-                            </svg>
-                            <input id="showcaseSearchInput" type="search" placeholder="Search by filename, mission, or event label">
-                        </div>
-                        <button class="btn btn-primary marketplace-search-btn" type="submit">Search</button>
-                    </div>
+                <form class="library-search" id="showcaseSearchForm">
+                    <label class="sr-only" for="showcaseSearchInput">Search the dataset library</label>
+                    <input id="showcaseSearchInput" type="search" placeholder="Search by filename, label, source, or mission">
+                    <button type="submit">Search</button>
                 </form>
 
-                <div class="marketplace-toolbar">
-                    <div class="marketplace-toolbar-row">
-                        <div class="marketplace-toolbar-copy">
-                            <p class="marketplace-toolbar-title">Discover datasets by mission</p>
-                            <p class="marketplace-toolbar-subtitle" id="showcaseResultsCount">Loading library...</p>
-                        </div>
-                        <div class="marketplace-sort" id="showcaseSorts">
-                            <button class="sort-btn active" type="button" data-sort="confidence">Top confidence</button>
-                            <button class="sort-btn" type="button" data-sort="events">Most events</button>
-                            <button class="sort-btn" type="button" data-sort="name">A-Z</button>
-                        </div>
-                    </div>
-                    <div class="showcase-filters" id="showcaseFilters">
+                <div class="library-toolbar">
+                    <div class="library-filters" id="showcaseFilters">
                         <button class="filter-btn active" type="button" data-filter="all">All</button>
                     </div>
+                    <div class="library-sorts" id="showcaseSorts">
+                        <button class="sort-btn active" type="button" data-sort="confidence">Top confidence</button>
+                        <button class="sort-btn" type="button" data-sort="events">Most events</button>
+                        <button class="sort-btn" type="button" data-sort="name">A-Z</button>
+                    </div>
                 </div>
 
-                <div class="showcase-grid showcase-grid-plain" id="showcaseGrid">
-                    <!-- Populated by JS from labels.json -->
-                </div>
+                <div class="library-grid" id="showcaseGrid"></div>
                 <div class="showcase-empty" id="showcaseEmpty" style="display:none;">
-                    <p>No datasets match that search yet. Try a broader term or another mission filter.</p>
+                    <p>No videos matched that search.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <footer class="footer">
+    <footer class="footer home-footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <span class="logo-icon">R</span>
-                    <span class="logo-text" style="font-weight:700;font-size:1.05rem;">Robotics for Social Good</span>
-                    <p>Building autonomous systems that serve humanity. Open source. Community driven.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Platform</h4>
-                    <a href="index.html">Home</a>
-                    <a href="explore.html">Explore Data</a>
-                    <a href="upload.html">Upload Data</a>
-                    <a href="impact.html">Impact Stories</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Community</h4>
-                    <a href="#">GitHub</a>
-                    <a href="#">Discord</a>
-                    <a href="#">Blog</a>
-                    <a href="#">Research Papers</a>
-                </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Data Ethics Policy</a>
-                    <a href="#">Cookie Policy</a>
-                </div>
-            </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Robotics for Social Good. Open source under MIT License.</p>
-                <span class="footer-powered">Powered by <strong>NomadicML</strong></span>
+                <p>&copy; 2026 Robotics for Social Good</p>
+                <span class="footer-powered">Generated with <strong>NomadicML</strong> and local `.env` config</span>
             </div>
         </div>
     </footer>
 
     <div class="toast" id="toast"></div>
 
+    <script src="js/datasets.js"></script>
     <script src="js/home.js"></script>
 </body>
 </html>

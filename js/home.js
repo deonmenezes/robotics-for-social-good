@@ -1,214 +1,149 @@
-// ===== HOME PAGE JS =====
-
-// ===== NAVBAR SCROLL =====
-const navbar = document.getElementById('navbar');
+var navbar = document.getElementById('navbar');
 if (navbar) {
-    window.addEventListener('scroll', () => {
-        navbar.classList.toggle('scrolled', window.scrollY > 50);
+    window.addEventListener('scroll', function () {
+        navbar.classList.toggle('scrolled', window.scrollY > 16);
     });
 }
 
-// ===== MOBILE MENU =====
-const mobileToggle = document.getElementById('mobileToggle');
-const navLinks = document.querySelector('.nav-links');
+var mobileToggle = document.getElementById('mobileToggle');
+var navLinks = document.querySelector('.nav-links');
 if (mobileToggle && navLinks) {
-    mobileToggle.addEventListener('click', () => {
+    mobileToggle.addEventListener('click', function () {
         navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
         navLinks.style.position = 'absolute';
         navLinks.style.top = '100%';
         navLinks.style.left = '0';
         navLinks.style.right = '0';
+        navLinks.style.padding = '18px 24px 24px';
         navLinks.style.flexDirection = 'column';
-        navLinks.style.background = 'var(--bg-secondary)';
-        navLinks.style.padding = '24px';
-        navLinks.style.gap = '16px';
-        navLinks.style.borderBottom = '1px solid var(--border)';
+        navLinks.style.gap = '14px';
+        navLinks.style.background = '#f4efe6';
+        navLinks.style.borderBottom = '2px solid #111111';
     });
 }
-
-// ===== TOAST =====
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    if (!toast) return;
-    toast.textContent = message;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 4000);
-}
-
-// ===== ANIMATED COUNTERS =====
-function animateCounters() {
-    const counters = document.querySelectorAll('.stat-number');
-    counters.forEach(counter => {
-        const target = parseInt(counter.dataset.target, 10);
-        const duration = 2000;
-        const start = performance.now();
-
-        function update(now) {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            counter.textContent = Math.floor(target * eased).toLocaleString();
-            if (progress < 1) requestAnimationFrame(update);
-            else counter.textContent = target.toLocaleString();
-        }
-        requestAnimationFrame(update);
-    });
-}
-
-const heroStats = document.querySelector('.hero-stats');
-if (heroStats) {
-    const heroObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounters();
-                heroObserver.disconnect();
-            }
-        });
-    }, { threshold: 0.3 });
-    heroObserver.observe(heroStats);
-}
-
-// ===== SCROLL REVEAL =====
-function setupReveal() {
-    const elements = document.querySelectorAll(
-        '.feature-card, .pipeline-step, .impact-card, .pricing-card, .upload-card, .payment-card, .cta-card, .marketplace-shell'
-    );
-    elements.forEach(el => el.classList.add('reveal'));
-
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => entry.target.classList.add('visible'), i * 100);
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-
-    elements.forEach(el => revealObserver.observe(el));
-}
-setupReveal();
-
-// ===== NEWSLETTER =====
-const newsletterForm = document.getElementById('newsletterForm');
-if (newsletterForm) {
-    newsletterForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = e.target.querySelector('input').value;
-        if (email) {
-            showToast('Subscribed! You\'ll receive impact updates and opportunities.');
-            e.target.querySelector('input').value = '';
-        }
-    });
-}
-
-// ===== SMOOTH SCROLL for anchor links =====
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            if (window.innerWidth <= 768 && navLinks) {
-                navLinks.style.display = 'none';
-            }
-        }
-    });
-});
-
-// ===== VIDEO SHOWCASE =====
-const CATEGORY_EMOJI = {
-    'waste-segregation': '♻',
-    'food-outreach': '🍕',
-    'elder-support': '🧓',
-    'disaster-response': '🚑',
-    'robotics-research': '🤖',
-    'agriculture': '🌾',
-    'ocean-cleanup': '🌊',
-    'healthcare': '🏥',
-    'general-robotics': '⚙',
-    'needs-review': '🔍',
-};
 
 function prettifyName(filename) {
-    return filename
-        .replace(/\.(mp4|mov|avi|mkv|webm|MOV)$/i, '')
+    return String(filename || '')
+        .replace(/\.(mp4|mov|avi|mkv|webm)$/i, '')
         .replace(/_/g, ' ')
-        .replace(/\b\w/g, c => c.toUpperCase())
-        .replace(/^Img /i, 'Field Video ')
-        .replace(/^G1 /i, 'Unitree G1 ')
-        .replace(/^Go2 /i, 'Unitree Go2 ');
+        .replace(/\b\w/g, function (char) { return char.toUpperCase(); });
 }
 
 function prettifyCategory(category) {
-    return category.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    return String(category || 'general-robotics')
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, function (char) { return char.toUpperCase(); });
 }
 
-function truncateSummary(summary, maxLen = 160) {
-    if (!summary) return 'Awaiting analysis...';
-    const clean = summary.replace(/\\n/g, ' ').replace(/\[[\d:]+\]/g, '').trim();
-    return clean.length > maxLen ? clean.substring(0, maxLen) + '...' : clean;
+function cleanSummary(summary) {
+    var text = String(summary || '')
+        .replace(/\\n/g, ' ')
+        .replace(/\[[\d:-]+\]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    if (!text) {
+        return 'No summary yet.';
+    }
+    return text.length > 180 ? text.slice(0, 177) + '...' : text;
+}
+
+function showToast(message) {
+    var toast = document.getElementById('toast');
+    if (!toast) {
+        return;
+    }
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(function () {
+        toast.classList.remove('show');
+    }, 3500);
 }
 
 async function loadShowcase() {
-    const grid = document.getElementById('showcaseGrid');
-    const filtersEl = document.getElementById('showcaseFilters');
-    const searchForm = document.getElementById('showcaseSearchForm');
-    const searchInput = document.getElementById('showcaseSearchInput');
-    const sortEl = document.getElementById('showcaseSorts');
-    const resultsCount = document.getElementById('showcaseResultsCount');
-    const datasetCount = document.getElementById('marketplaceDatasetCount');
-    const emptyState = document.getElementById('showcaseEmpty');
+    var grid = document.getElementById('showcaseGrid');
+    var filtersEl = document.getElementById('showcaseFilters');
+    var searchForm = document.getElementById('showcaseSearchForm');
+    var searchInput = document.getElementById('showcaseSearchInput');
+    var sortEl = document.getElementById('showcaseSorts');
+    var resultsCount = document.getElementById('libraryResults');
+    var emptyState = document.getElementById('showcaseEmpty');
+    var heroDatasetCount = document.getElementById('heroDatasetCount');
+    var heroCategoryCount = document.getElementById('heroCategoryCount');
+    var activeCollectionName = document.getElementById('activeCollectionName');
+    var heroFingerprint = document.getElementById('heroFingerprint');
+    var collectionNote = document.getElementById('heroCollectionNote');
 
-    if (!grid || !filtersEl) return;
+    if (!grid || !window.RFSGDatasets) {
+        return;
+    }
 
     try {
-        const res = await fetch('labels.json');
-        if (!res.ok) throw new Error('labels.json not found');
-        const labels = await res.json();
-        const state = {
+        var payload = await window.RFSGDatasets.loadDatasetCollection();
+        var videos = payload.videos || [];
+        var collection = payload.collection || {};
+        var state = {
             filter: 'all',
             sort: 'confidence',
             query: '',
         };
 
-        if (datasetCount) {
-            datasetCount.textContent = `${labels.length.toLocaleString()} datasets`;
+        if (heroDatasetCount) {
+            heroDatasetCount.textContent = String(videos.length);
+        }
+        if (heroCategoryCount) {
+            heroCategoryCount.textContent = String(new Set(videos.map(function (video) {
+                return video.use_case || 'general-robotics';
+            })).size);
+        }
+        if (activeCollectionName) {
+            activeCollectionName.textContent = collection.name || 'Main Library';
+        }
+        if (heroFingerprint) {
+            heroFingerprint.textContent = collection.api_key_fingerprint || 'local';
+        }
+        if (collectionNote) {
+            collectionNote.textContent = collection.generated_at
+                ? 'Generated ' + new Date(collection.generated_at).toLocaleDateString()
+                : 'Public pages only read generated JSON. Your actual API key stays in .env.';
         }
 
-        const categories = [...new Set(labels.map(v => v.use_case))];
-        categories.forEach(cat => {
-            const btn = document.createElement('button');
-            btn.className = 'filter-btn';
-            btn.type = 'button';
-            btn.dataset.filter = cat;
-            btn.textContent = `${CATEGORY_EMOJI[cat] || '•'} ${prettifyCategory(cat)}`;
-            filtersEl.appendChild(btn);
+        var categories = Array.from(new Set(videos.map(function (video) {
+            return video.use_case || 'general-robotics';
+        }))).sort();
+
+        categories.forEach(function (category) {
+            var button = document.createElement('button');
+            button.className = 'filter-btn';
+            button.type = 'button';
+            button.dataset.filter = category;
+            button.textContent = prettifyCategory(category);
+            filtersEl.appendChild(button);
         });
 
-        function getFilteredLabels() {
-            const query = state.query.trim().toLowerCase();
-            const filtered = labels.filter(video => {
-                const matchesFilter = state.filter === 'all' || video.use_case === state.filter;
-                if (!matchesFilter) return false;
-                if (!query) return true;
+        function getFilteredVideos() {
+            var query = state.query.trim().toLowerCase();
+            var filtered = videos.filter(function (video) {
+                var categoryMatch = state.filter === 'all' || video.use_case === state.filter;
+                if (!categoryMatch) {
+                    return false;
+                }
+                if (!query) {
+                    return true;
+                }
 
-                const haystack = [
+                var haystack = [
                     video.filename,
                     video.source,
                     video.use_case,
                     video.use_case_title,
                     video.summary,
-                    video.nomadic_summary,
-                    ...(video.event_labels || []),
-                ]
-                    .filter(Boolean)
-                    .join(' ')
-                    .toLowerCase();
+                    video.nomadic_summary
+                ].concat(video.event_labels || []).filter(Boolean).join(' ').toLowerCase();
 
-                return haystack.includes(query);
+                return haystack.indexOf(query) !== -1;
             });
 
-            filtered.sort((a, b) => {
+            filtered.sort(function (a, b) {
                 if (state.sort === 'events') {
                     return (b.event_count || 0) - (a.event_count || 0) || (b.confidence || 0) - (a.confidence || 0);
                 }
@@ -221,84 +156,82 @@ async function loadShowcase() {
             return filtered;
         }
 
-        function updateSummary(filtered) {
-            if (!resultsCount) return;
-            const scope = state.filter === 'all' ? 'all mission areas' : prettifyCategory(state.filter);
-            const query = state.query.trim() ? ` for "${state.query.trim()}"` : '';
-            resultsCount.textContent = `${filtered.length.toLocaleString()} results in ${scope}${query}`;
-        }
-
         function renderCards() {
-            const filtered = getFilteredLabels();
+            var filtered = getFilteredVideos();
             grid.innerHTML = '';
-            if (emptyState) {
-                emptyState.style.display = filtered.length === 0 ? 'block' : 'none';
+
+            if (resultsCount) {
+                resultsCount.textContent = filtered.length + ' videos in ' + (state.filter === 'all' ? 'all categories' : prettifyCategory(state.filter));
             }
-            updateSummary(filtered);
 
-            filtered.forEach(video => {
-                const thumb = video.thumbnail ? `assets/${video.thumbnail}` : null;
-                const confidence = video.confidence || 0;
-                const categoryLabel = video.use_case_title || prettifyCategory(video.use_case);
-                const card = document.createElement('article');
-                card.className = 'showcase-card reveal visible';
-                card.dataset.category = video.use_case;
+            if (emptyState) {
+                emptyState.style.display = filtered.length ? 'none' : 'block';
+            }
 
-                card.innerHTML = `
-                    <div class="showcase-thumb">
-                        <div class="showcase-card-header">
-                            <div class="showcase-category-tag">${categoryLabel}</div>
-                            ${video.status === 'classified'
-                                ? '<div class="showcase-nomadic-badge">NomadicML</div>'
-                                : ''
-                            }
-                        </div>
-                        ${thumb
-                            ? `<img src="${thumb}" alt="${video.filename}" loading="lazy">`
-                            : `<div class="no-thumb">${CATEGORY_EMOJI[video.use_case] || '🤖'}</div>`
-                        }
-                    </div>
-                    <div class="showcase-body">
-                        <p class="showcase-kicker">${video.source || 'Field dataset'}</p>
-                        <h3>${prettifyName(video.filename)}</h3>
-                        <p class="showcase-summary">${truncateSummary(video.summary || video.nomadic_summary)}</p>
-                        ${(video.event_labels && video.event_labels.length > 0) ? `
-                            <div class="showcase-labels">
-                                ${video.event_labels.slice(0, 3).map(label => `<span class="showcase-label-tag">${label}</span>`).join('')}
-                            </div>
-                        ` : ''}
-                        <div class="showcase-meta">
-                            <div class="showcase-confidence">
-                                <div class="showcase-confidence-top">
-                                    <span class="showcase-confidence-label">Model confidence</span>
-                                    <span class="showcase-confidence-value">${confidence}%</span>
-                                </div>
-                                <div class="confidence-bar">
-                                    <div class="confidence-fill" style="width: ${confidence}%"></div>
-                                </div>
-                            </div>
-                            <span class="showcase-events">${video.event_count || 0} events</span>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
+            filtered.forEach(function (video) {
+                var article = document.createElement('article');
+                var previewPath = window.RFSGDatasets.getPreviewPath(video.filename);
+                var hasPreview = Boolean(previewPath);
+                var thumb = video.thumbnail ? 'assets/' + video.thumbnail : '';
+                var tags = (video.event_labels || []).slice(0, 4);
+
+                article.className = 'library-card';
+                article.innerHTML = ''
+                    + '<div class="library-card-media">'
+                    + (thumb
+                        ? '<img src="' + thumb + '" alt="' + prettifyName(video.filename) + '" loading="lazy">'
+                        : '<div class="media-fallback">No Thumb</div>')
+                    + '</div>'
+                    + '<div class="library-card-body">'
+                    + '<div class="library-card-top">'
+                    + '<div>'
+                    + '<p class="library-card-kicker">' + (video.source || 'dataset') + '</p>'
+                    + '<h3 class="library-card-title">' + prettifyName(video.filename) + '</h3>'
+                    + '</div>'
+                    + '<span class="library-card-chip">' + prettifyCategory(video.use_case_title || video.use_case) + '</span>'
+                    + '</div>'
+                    + '<p class="library-card-summary">' + cleanSummary(video.summary || video.nomadic_summary) + '</p>'
+                    + (tags.length
+                        ? '<div class="library-card-tags">' + tags.map(function (tag) {
+                            return '<span class="library-card-tag">' + tag + '</span>';
+                        }).join('') + '</div>'
+                        : '')
+                    + '<div class="library-card-meta">'
+                    + '<span class="library-card-stat">' + (video.confidence || 0) + '% confidence</span>'
+                    + '<span class="library-card-stat">' + (video.event_count || 0) + ' events</span>'
+                    + '</div>'
+                    + '<div class="library-card-actions">'
+                    + '<a class="primary-link" href="explore.html?dataset=' + encodeURIComponent(collection.id || 'labels') + '">Open Details</a>'
+                    + (hasPreview ? '<a class="secondary-link" href="' + previewPath + '">Preview Video</a>' : '')
+                    + '</div>'
+                    + '</div>';
+
+                grid.appendChild(article);
             });
         }
 
-        filtersEl.addEventListener('click', (e) => {
-            const button = e.target.closest('.filter-btn');
-            if (!button) return;
-            filtersEl.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        filtersEl.addEventListener('click', function (event) {
+            var button = event.target.closest('.filter-btn');
+            if (!button) {
+                return;
+            }
+            filtersEl.querySelectorAll('.filter-btn').forEach(function (item) {
+                item.classList.remove('active');
+            });
             button.classList.add('active');
             state.filter = button.dataset.filter;
             renderCards();
         });
 
         if (sortEl) {
-            sortEl.addEventListener('click', (e) => {
-                const button = e.target.closest('.sort-btn');
-                if (!button) return;
-                sortEl.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+            sortEl.addEventListener('click', function (event) {
+                var button = event.target.closest('.sort-btn');
+                if (!button) {
+                    return;
+                }
+                sortEl.querySelectorAll('.sort-btn').forEach(function (item) {
+                    item.classList.remove('active');
+                });
                 button.classList.add('active');
                 state.sort = button.dataset.sort;
                 renderCards();
@@ -306,25 +239,26 @@ async function loadShowcase() {
         }
 
         if (searchForm && searchInput) {
-            searchForm.addEventListener('submit', (e) => {
-                e.preventDefault();
+            searchForm.addEventListener('submit', function (event) {
+                event.preventDefault();
                 state.query = searchInput.value;
                 renderCards();
+                if (state.query.trim()) {
+                    showToast('Filtered library for "' + state.query.trim() + '".');
+                }
             });
 
-            searchInput.addEventListener('input', () => {
+            searchInput.addEventListener('input', function () {
                 state.query = searchInput.value;
                 renderCards();
             });
         }
 
         renderCards();
-    } catch (err) {
-        console.warn('Could not load showcase:', err);
-        grid.innerHTML = '<p style="color: var(--text-muted); text-align: center; grid-column: 1/-1;">Video showcase loading... Run label_videos.py to generate labels.</p>';
+    } catch (error) {
+        console.error('Could not load showcase', error);
+        grid.innerHTML = '<p>Could not load dataset library.</p>';
     }
 }
 
 loadShowcase();
-
-console.log('Robotics for Social Good - Home loaded successfully');
