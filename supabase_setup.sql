@@ -16,9 +16,14 @@ CREATE TABLE IF NOT EXISTS video_labels (
     event_labels TEXT[] DEFAULT '{}',
     analyzed_at TIMESTAMPTZ,
     thumbnail TEXT,
+    raw_analysis JSONB,
+    upload_metadata JSONB,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+ALTER TABLE video_labels ADD COLUMN IF NOT EXISTS raw_analysis JSONB;
+ALTER TABLE video_labels ADD COLUMN IF NOT EXISTS upload_metadata JSONB;
 
 -- Create storage bucket for thumbnails
 INSERT INTO storage.buckets (id, name, public)

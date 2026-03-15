@@ -10,7 +10,7 @@
     { "src": "labels.json", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1.py" },
+    { "src": "/api/upload", "dest": "/api/upload.py" },
     { "handle": "filesystem" },
     { "src": "/", "dest": "/index.html" }
   ]

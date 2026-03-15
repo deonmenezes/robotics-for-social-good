@@ -68,7 +68,7 @@ def infer_category(summary, fallback):
     return fallback or "general-robotics"
 
 
-def build_result(filename, source, summary, events, confidence, category):
+def build_result(filename, source, summary, events, confidence, category, raw_analysis, upload_metadata):
     return {
         "filename": filename,
         "source": source,
@@ -83,6 +83,8 @@ def build_result(filename, source, summary, events, confidence, category):
         "event_labels": [event.get("label", "") for event in events if event.get("label")][:5],
         "analyzed_at": datetime.now(timezone.utc).isoformat(),
         "thumbnail": None,
+        "raw_analysis": raw_analysis,
+        "upload_metadata": upload_metadata,
     }
 
 
@@ -92,7 +94,13 @@ def save_to_supabase(entry):
     if not url or not key or create_client is None:
         return
     client = create_client(url, key)
-    client.table("video_labels").upsert(entry, on_conflict="filename").execute()
+    try:
+        client.table("video_labels").upsert(entry, on_conflict="filename").execute()
+    except Exception as error:
+        message = str(error)
+        if "raw_analysis" in message or "upload_metadata" in message:
+            raise RuntimeError("Supabase schema is missing raw_analysis/upload_metadata. Re-run supabase_setup.sql.") from error
+        raise
 
 
 @app.errorhandler(RequestEntityTooLarge)
@@ -172,6 +180,15 @@ def upload():
             events=events,
             confidence=confidence,
             category=category,
+            raw_analysis=analysis,
+            upload_metadata={
+                "video_id": video_id,
+                "upload_result": upload_result,
+                "selected_category": selected_category,
+                "description": dataset_description,
+                "original_filename": uploaded_file.filename,
+                "size_bytes": os.path.getsize(temp_path),
+            },
         )
         save_to_supabase(entry)
         return jsonify({"ok": True, "entry": entry})
