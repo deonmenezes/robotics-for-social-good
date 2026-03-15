@@ -14,21 +14,19 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#" class="nav-logo">
+            <a href="index.html" class="nav-logo">
                 <span class="logo-icon">⚙️</span>
                 <span class="logo-text">Robotics for Social Good</span>
             </a>
             <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="explore.html">Explore Data</a></li>
-                <li><a href="#platform">Platform</a></li>
-                <li><a href="#upload">Upload Data</a></li>
-                <li><a href="#impact">Impact</a></li>
-                <li><a href="#showcase">Showcase</a></li>
-                <li><a href="#pricing">Support</a></li>
+                <li><a href="index.html" class="nav-active">Home</a></li>
+                <li><a href="explore.html">Explore</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="impact.html">Impact</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="#upload" class="btn btn-primary">Get Started</a>
+                <a href="upload.html" class="btn-create">+ Create</a>
                 <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
                     <span></span><span></span><span></span>
                 </button>
@@ -40,9 +38,6 @@
     <section class="hero" id="hero">
         <div class="hero-bg">
             <div class="grid-overlay"></div>
-            <div class="glow glow-1"></div>
-            <div class="glow glow-2"></div>
-            <div class="glow glow-3"></div>
         </div>
         <div class="hero-content">
             <div class="hero-badge">
@@ -59,11 +54,11 @@
                 From disaster response to accessibility — together we make impact real.
             </p>
             <div class="hero-cta">
-                <a href="#upload" class="btn btn-primary btn-lg">
-                    <span>Upload Data</span>
+                <a href="upload.html" class="btn btn-primary btn-lg">
+                    <span>Donate Data & Get Paid</span>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
-                <a href="#platform" class="btn btn-secondary btn-lg">
+                <a href="explore.html" class="btn btn-secondary btn-lg">
                     <span>Explore Platform</span>
                 </a>
             </div>
@@ -98,7 +93,7 @@
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- About / Mission Section -->
     <section class="section" id="about">
         <div class="container">
             <div class="section-header">
@@ -141,7 +136,7 @@
         </div>
     </section>
 
-    <!-- Platform Section -->
+    <!-- How It Works Section -->
     <section class="section section-dark" id="platform">
         <div class="container">
             <div class="section-header">
@@ -185,174 +180,6 @@
         </div>
     </section>
 
-    <!-- Upload / Payment Section -->
-    <section class="section" id="upload">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Contribute</span>
-                <h2 class="section-title">Upload <span class="gradient-text">Social Good Data</span></h2>
-                <p class="section-desc">Share your datasets and get compensated. Every contribution fuels humanitarian robotics research.</p>
-            </div>
-            <div class="upload-area">
-                <div class="upload-card">
-                    <div class="upload-zone" id="uploadZone">
-                        <div class="upload-icon">
-                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
-                            </svg>
-                        </div>
-                        <h3>Drag & Drop Your Dataset</h3>
-                        <p>Support for video, CSV, JSON, sensor logs, ROSBAG, and image archives</p>
-                        <p class="upload-hint">or <span class="upload-browse">browse files</span></p>
-                        <input type="file" id="fileInput" multiple hidden>
-                    </div>
-                    <div class="upload-meta">
-                        <div class="form-group">
-                            <label>Dataset Name</label>
-                            <input type="text" placeholder="e.g., Urban Search & Rescue Drone Footage" id="datasetName">
-                        </div>
-                        <div class="form-group">
-                            <label>Category</label>
-                            <select id="datasetCategory">
-                                <option value="">Select a category...</option>
-                                <option value="disaster">Disaster Response</option>
-                                <option value="accessibility">Accessibility</option>
-                                <option value="agriculture">Sustainable Agriculture</option>
-                                <option value="healthcare">Healthcare</option>
-                                <option value="ocean">Ocean & Environment</option>
-                                <option value="education">Education</option>
-                                <option value="other">Other Social Good</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea placeholder="Describe your dataset, how it was collected, and its potential impact..." id="datasetDesc" rows="3"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Payment Section -->
-                <div class="payment-card">
-                    <h3>💰 Data Contributor Compensation</h3>
-                    <p class="payment-desc">Get paid for high-quality social good data. Set your price or donate it freely.</p>
-
-                    <div class="payment-options">
-                        <label class="payment-option">
-                            <input type="radio" name="payment" value="free" checked>
-                            <div class="option-content">
-                                <span class="option-title">🎁 Free / Donation</span>
-                                <span class="option-desc">Contribute freely for maximum impact</span>
-                            </div>
-                        </label>
-                        <label class="payment-option">
-                            <input type="radio" name="payment" value="micro">
-                            <div class="option-content">
-                                <span class="option-title">💵 Micro-payment ($1–$10)</span>
-                                <span class="option-desc">Small fee per download of your dataset</span>
-                            </div>
-                        </label>
-                        <label class="payment-option">
-                            <input type="radio" name="payment" value="premium">
-                            <div class="option-content">
-                                <span class="option-title">💎 Premium ($10–$100)</span>
-                                <span class="option-desc">For large, high-quality curated datasets</span>
-                            </div>
-                        </label>
-                        <label class="payment-option">
-                            <input type="radio" name="payment" value="custom">
-                            <div class="option-content">
-                                <span class="option-title">⚡ Custom Price</span>
-                                <span class="option-desc">Set your own price</span>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div class="custom-price-input" id="customPriceInput" style="display:none;">
-                        <label>Your Price (USD)</label>
-                        <div class="price-input-wrapper">
-                            <span class="currency">$</span>
-                            <input type="number" placeholder="0.00" min="0" step="0.01" id="customPrice">
-                        </div>
-                    </div>
-
-                    <div class="payment-info">
-                        <div class="info-row">
-                            <span>Platform fee</span>
-                            <span>5% (funds platform operations)</span>
-                        </div>
-                        <div class="info-row">
-                            <span>Impact fund</span>
-                            <span>10% goes to underserved communities</span>
-                        </div>
-                        <div class="info-row highlight">
-                            <span>You receive</span>
-                            <span>85% of each sale</span>
-                        </div>
-                    </div>
-
-                    <div class="payout-method">
-                        <label>Payout Email (PayPal / Stripe)</label>
-                        <input type="email" placeholder="your@email.com" id="payoutEmail">
-                    </div>
-
-                    <button class="btn btn-primary btn-lg btn-full" id="submitDataset">
-                        <span>Submit Dataset</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Impact Section -->
-    <section class="section section-dark" id="impact">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Real Impact</span>
-                <h2 class="section-title">Making a <span class="gradient-text">Difference</span></h2>
-                <p class="section-desc">See how community-contributed data is powering real humanitarian robotics deployments around the world.</p>
-            </div>
-            <div class="impact-grid">
-                <div class="impact-card">
-                    <div class="impact-header">
-                        <span class="impact-tag">Active</span>
-                        <span class="impact-location">🇹🇷 Türkiye</span>
-                    </div>
-                    <h3>Earthquake Response Drones</h3>
-                    <p>AI-powered drones trained on contributor data locate survivors under rubble 3x faster than traditional methods.</p>
-                    <div class="impact-stat">
-                        <span class="impact-number">2,400+</span>
-                        <span>lives assisted</span>
-                    </div>
-                </div>
-                <div class="impact-card">
-                    <div class="impact-header">
-                        <span class="impact-tag">Active</span>
-                        <span class="impact-location">🇰🇪 Kenya</span>
-                    </div>
-                    <h3>Agricultural Yield Optimization</h3>
-                    <p>Precision farming robots using community crop data help smallholder farmers increase yields by 40%.</p>
-                    <div class="impact-stat">
-                        <span class="impact-number">15,000</span>
-                        <span>farmers supported</span>
-                    </div>
-                </div>
-                <div class="impact-card">
-                    <div class="impact-header">
-                        <span class="impact-tag">Pilot</span>
-                        <span class="impact-location">🇧🇷 Brazil</span>
-                    </div>
-                    <h3>River Pollution Monitoring</h3>
-                    <p>Autonomous boats monitor Amazon tributaries for illegal pollution, trained on environmental sensor datasets.</p>
-                    <div class="impact-stat">
-                        <span class="impact-number">850 km</span>
-                        <span>of river monitored</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Video Showcase Section -->
     <section class="section" id="showcase">
         <div class="container">
@@ -369,67 +196,6 @@
             </div>
             <div class="showcase-empty" id="showcaseEmpty" style="display:none;">
                 <p>No videos match this filter.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing / Support Section -->
-    <section class="section" id="pricing">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Support the Mission</span>
-                <h2 class="section-title">Fund <span class="gradient-text">Social Good</span> Robotics</h2>
-                <p class="section-desc">Every contribution directly funds open-source robotics for humanitarian applications.</p>
-            </div>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Community</h3>
-                        <div class="price">Free</div>
-                        <p>For individual contributors</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>✓ Upload up to 5 datasets/month</li>
-                        <li>✓ Access community datasets</li>
-                        <li>✓ Basic analytics</li>
-                        <li>✓ Community forum access</li>
-                        <li>✓ Open-source model access</li>
-                    </ul>
-                    <a href="#upload" class="btn btn-secondary btn-full">Get Started</a>
-                </div>
-                <div class="pricing-card featured">
-                    <div class="pricing-badge">Most Popular</div>
-                    <div class="pricing-header">
-                        <h3>Researcher</h3>
-                        <div class="price">$29<span>/mo</span></div>
-                        <p>For labs & research teams</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>✓ Unlimited dataset uploads</li>
-                        <li>✓ Priority data curation</li>
-                        <li>✓ Advanced analytics & metrics</li>
-                        <li>✓ Model training pipeline access</li>
-                        <li>✓ API access</li>
-                        <li>✓ Collaboration tools</li>
-                    </ul>
-                    <button class="btn btn-primary btn-full" onclick="handlePayment('researcher')">Subscribe — $29/mo</button>
-                </div>
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Organization</h3>
-                        <div class="price">$99<span>/mo</span></div>
-                        <p>For NGOs & institutions</p>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>✓ Everything in Researcher</li>
-                        <li>✓ Dedicated compute for training</li>
-                        <li>✓ Custom deployment support</li>
-                        <li>✓ Priority technical support</li>
-                        <li>✓ Impact reporting dashboard</li>
-                        <li>✓ White-label options</li>
-                    </ul>
-                    <button class="btn btn-secondary btn-full" onclick="handlePayment('organization')">Subscribe — $99/mo</button>
-                </div>
             </div>
         </div>
     </section>
@@ -454,15 +220,15 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <span class="logo-icon">⚙️</span>
-                    <span class="logo-text">Robotics for Social Good</span>
+                    <span class="logo-text" style="font-weight:700;font-size:1.05rem;">Robotics for Social Good</span>
                     <p>Building autonomous systems that serve humanity. Open source. Community driven.</p>
                 </div>
                 <div class="footer-links">
                     <h4>Platform</h4>
-                    <a href="#about">About</a>
-                    <a href="#platform">How It Works</a>
-                    <a href="#upload">Upload Data</a>
-                    <a href="#impact">Impact Stories</a>
+                    <a href="index.html">Home</a>
+                    <a href="explore.html">Explore Data</a>
+                    <a href="upload.html">Upload Data</a>
+                    <a href="impact.html">Impact Stories</a>
                 </div>
                 <div class="footer-links">
                     <h4>Community</h4>
@@ -481,50 +247,14 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 Robotics for Social Good. Open source under MIT License.</p>
+                <span class="footer-powered">Powered by <strong>NomadicML</strong></span>
             </div>
         </div>
     </footer>
 
-    <!-- Payment Modal -->
-    <div class="modal-overlay" id="paymentModal">
-        <div class="modal">
-            <button class="modal-close" id="modalClose">&times;</button>
-            <h2>Complete Your Subscription</h2>
-            <p id="modalPlan"></p>
-            <form class="payment-form" id="paymentForm">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" placeholder="Jane Doe" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" placeholder="jane@example.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Card Number</label>
-                    <input type="text" placeholder="4242 4242 4242 4242" maxlength="19" id="cardNumber" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Expiry</label>
-                        <input type="text" placeholder="MM/YY" maxlength="5" required>
-                    </div>
-                    <div class="form-group">
-                        <label>CVC</label>
-                        <input type="text" placeholder="123" maxlength="4" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full btn-lg">
-                    Pay & Subscribe
-                </button>
-                <p class="payment-secure">🔒 Secured with 256-bit encryption. Cancel anytime.</p>
-            </form>
-        </div>
-    </div>
-
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
-    <script src="js/main.js"></script>
+    <script src="js/home.js"></script>
 </body>
 </html>
