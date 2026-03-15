@@ -23,6 +23,7 @@
                 <li><a href="#platform">Platform</a></li>
                 <li><a href="#upload">Upload Data</a></li>
                 <li><a href="#impact">Impact</a></li>
+                <li><a href="#showcase">Showcase</a></li>
                 <li><a href="#pricing">Support</a></li>
             </ul>
             <div class="nav-actions">
@@ -347,6 +348,26 @@
                         <span>of river monitored</span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Showcase Section -->
+    <section class="section" id="showcase">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Labeled Datasets</span>
+                <h2 class="section-title">Video <span class="gradient-text">Showcase</span></h2>
+                <p class="section-desc">Real robotics videos labeled and classified by <strong>NomadicML</strong> for social good use cases. Browse our growing library of annotated training data.</p>
+            </div>
+            <div class="showcase-filters" id="showcaseFilters">
+                <button class="filter-btn active" data-filter="all">All</button>
+            </div>
+            <div class="showcase-grid" id="showcaseGrid">
+                <!-- Populated by JS from labels.json -->
+            </div>
+            <div class="showcase-empty" id="showcaseEmpty" style="display:none;">
+                <p>No videos match this filter.</p>
             </div>
         </div>
     </section>

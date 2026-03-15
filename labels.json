@@ -1,0 +1,329 @@
+[
+  {
+    "filename": "IMG_3404.MOV",
+    "source": "nomadic-training-set",
+    "path": "/home/thor/nomadic-training-set/IMG_3404.MOV",
+    "status": "classified",
+    "use_case": "waste-segregation",
+    "use_case_title": "",
+    "summary": "\\n\\n[00:00-00:20]: The video clearly demonstrates Use Case 1: waste segregation into biodegradable and reusable materials. The visual evidence includes a person correctly placing a plastic water bottle into a bin labeled 'REUSABLE' (00:03-00:07) and an orange into a bin labeled 'Bio Degradable' (00:10-00:14). A robot could assist by automating this sorting process, using visual sensors to identify objects and manipulators to place them in the correct bins. Key considerations would include the robot's accuracy in identifying a wide variety of materials to prevent cross-contamination and its ability to handle fragile or messy items safely and effectively.",
+    "nomadic_summary": "\\n\\n[00:00-00:20]: The video clearly demonstrates Use Case 1: waste segregation into biodegradable and reusable materials. The visual evidence includes a person correctly placing a plastic water bottle into a bin labeled 'REUSABLE' (00:03-00:07) and an orange into a bin labeled 'Bio Degradable' (00:10-00:14). A robot could assist by automating this sorting process, using visual sensors to identify objects and manipulators to place them in the correct bins. Key considerations would include the robot's accuracy in identifying a wide variety of materials to prevent cross-contamination and its ability to handle fragile or messy items safely and effectively.",
+    "confidence": 100,
+    "event_count": 2,
+    "event_labels": [
+      "Waste Segregation",
+      "Waste Segregation"
+    ],
+    "analyzed_at": "2026-03-15T06:53:23.520843+00:00",
+    "thumbnail": null
+  },
+  {
+    "filename": "IMG_3405.MOV",
+    "source": "nomadic-training-set",
+    "path": "/home/thor/nomadic-training-set/IMG_3405.MOV",
+    "status": "classified",
+    "use_case": "waste-segregation",
+    "use_case_title": "",
+    "summary": "\\n\\n[00:00-00:28]: The video's content aligns perfectly with Use Case 1, demonstrating the manual segregation of waste into 'REUSABLE' and 'Bio Degradable' containers. A robot could automate this task to improve efficiency and hygiene. The other two use cases are not depicted in the video.",
+    "nomadic_summary": "\\n\\n[00:00-00:28]: The video's content aligns perfectly with Use Case 1, demonstrating the manual segregation of waste into 'REUSABLE' and 'Bio Degradable' containers. A robot could automate this task to improve efficiency and hygiene. The other two use cases are not depicted in the video.",
+    "confidence": 100,
+    "event_count": 1,
+    "event_labels": [
+      "Waste Segregation"
+    ],
+    "analyzed_at": "2026-03-15T06:54:47.601816+00:00",
+    "thumbnail": null
+  },
+  {
+    "filename": "IMG_3406.MOV",
+    "source": "nomadic-training-set",
+    "path": "/home/thor/nomadic-training-set/IMG_3406.MOV",
+    "status": "classified",
+    "use_case": "waste-segregation",
+    "use_case_title": "",
+    "summary": "\\n\\n[00:00-00:31]: The video content aligns with Use Case 1: Waste segregation into biodegradable and reusable materials. The visual evidence shows a person sorting a plastic water bottle (reusable) and an orange (biodegradable) into a bin between 00:15 and 00:31. A robot could assist by automating the identification and physical sorting of these items into their respective waste streams, thereby increasing recycling efficiency. Safety considerations for a robotic solution would include the ability to handle sharp or hazardous objects, while dignity considerations are minimal but would involve ensuring the system is assistive and not disruptive to human workflows.",
+    "nomadic_summary": "\\n\\n[00:00-00:31]: The video content aligns with Use Case 1: Waste segregation into biodegradable and reusable materials. The visual evidence shows a person sorting a plastic water bottle (reusable) and an orange (biodegradable) into a bin between 00:15 and 00:31. A robot could assist by automating the identification and physical sorting of these items into their respective waste streams, thereby increasing recycling efficiency. Safety considerations for a robotic solution would include the ability to handle sharp or hazardous objects, while dignity considerations are minimal but would involve ensuring the system is assistive and not disruptive to human workflows.",
+    "confidence": 95,
+    "event_count": 1,
+    "event_labels": [
+      "Waste Segregation"
+    ],
+    "analyzed_at": "2026-03-15T06:56:08.902132+00:00",
+    "thumbnail": null
+  },
+  {
+    "filename": "IMG_3407.MOV",
+    "source": "nomadic-training-set",
+    "path": "/home/thor/nomadic-training-set/IMG_3407.MOV",
+    "status": "classified",
+    "use_case": "waste-segregation",
+    "use_case_title": "",
+    "summary": "\\n\\n[00:00-00:47]: The video was analyzed for three specific robotics-for-social-good use cases. The single best matching use case is Use Case 1: waste segregation. Visual evidence from 00:33 to 00:46 shows a cluttered living space with mixed waste items like cans, a paper plate, and a cardboard box, presenting a clear opportunity for a robot to sort biodegradable and reusable materials.",
+    "nomadic_summary": "\\n\\n[00:00-00:47]: The video was analyzed for three specific robotics-for-social-good use cases. The single best matching use case is Use Case 1: waste segregation. Visual evidence from 00:33 to 00:46 shows a cluttered living space with mixed waste items like cans, a paper plate, and a cardboard box, presenting a clear opportunity for a robot to sort biodegradable and reusable materials.",
+    "confidence": 95,
+    "event_count": 1,
+    "event_labels": [
+      "Waste Segregation"
+    ],
+    "analyzed_at": "2026-03-15T06:56:51.747475+00:00",
+    "thumbnail": null
+  },
+  {
+    "filename": "IMG_3408.MOV",
+    "source": "nomadic-training-set",
+    "path": "/home/thor/nomadic-training-set/IMG_3408.MOV",
+    "status": "classified",
+    "use_case": "elder-support",
+    "use_case_title": "",
+    "summary": "\\n\\n[00:00-00:37]: The video best matches use case 3: support for an elderly person experiencing back pain or mobility strain. This is based on the visual evidence of a humanoid robot and a mobility hoist observed from 00:23 to 00:27. While no elderly person is depicted, these tools are central to developing robotic assistance for individuals with mobility challenges. A robot could help with tasks like lifting, transferring, or providing walking support. Critical considerations include ensuring the robot's operational safety to prevent injury and designing interactions that respect the user's dignity and autonomy.\\n\\n[00:37-00:58]: The video does not explicitly depict any of the three requested use cases. However, it shows what appears to be a robotics lab or presentation with a humanoid robot visible in the background from 00:40 to 00:42. During this time, a person is seen leaning over in a posture indicative of potential physical strain. Based on this, the scenario aligns most closely with Use Case 3: providing support for a person with back pain or mobility strain, as humanoid robots are frequently designed for such assistive tasks.",
+    "nomadic_summary": "\\n\\n[00:00-00:37]: The video best matches use case 3: support for an elderly person experiencing back pain or mobility strain. This is based on the visual evidence of a humanoid robot and a mobility hoist observed from 00:23 to 00:27. While no elderly person is depicted, these tools are central to developing robotic assistance for individuals with mobility challenges. A robot could help with tasks like lifting, transferring, or providing walking support. Critical considerations include ensuring the robot's operational safety to prevent injury and designing interactions that respect the user's dignity and autonomy.\\n\\n[00:37-00:58]: The video does not explicitly depict any of the three requested use cases. However, it shows what appears to be a robotics lab or presentation with a humanoid robot visible in the background from 00:40 to 00:42. During this time, a person is seen leaning over in a posture indicative of potential physical strain. Based on this, the scenario aligns most closely with Use Case 3: providing support for a person with back pain or mobility strain, as humanoid robots are frequently designed for such assistive tasks.",
+    "confidence": 75,
+    "event_count": 2,
+    "event_labels": [
+      "Robotics for Mobility Support",
+      "Support for person with mobility strain"
+    ],
+    "analyzed_at": "2026-03-15T06:58:17.113675+00:00",
+    "thumbnail": null
+  },
+  {
+    "filename": "IMG_3410.MOV",
+    "source": "nomadic-training-set",
+    "path": "/home/thor/nomadic-training-set/IMG_3410.MOV",
+    "status": "classified",
+    "use_case": "food-outreach",
+    "use_case_title": "",
+    "summary": "\\n\\n[00:00-00:21]: The video best illustrates the robotics-for-social-good use case of providing food assistance to a person in need. A person is shown asking for food and subsequently receiving a pizza box from another individual. The other two use cases (waste segregation and elderly support) are not well-represented.",
+    "nomadic_summary": "\\n\\n[00:00-00:21]: The video best illustrates the robotics-for-social-good use case of providing food assistance to a person in need. A person is shown asking for food and subsequently receiving a pizza box from another individual. The other two use cases (waste segregation and elderly support) are not well-represented.",
+    "confidence": 95,
+    "event_count": 1,
+    "event_labels": [
+      "Food Assistance"
+    ],
+    "analyzed_at": "2026-03-15T06:59:06.555024+00:00",
+    "thumbnail": null
+  },
+  {
+    "filename": "IMG_3411.MOV",
+    "source": "nomadic-training-set",
+    "path": "/home/thor/nomadic-training-set/IMG_3411.MOV",
+    "status": "classified",
+    "use_case": "elder-support",
+    "use_case_title": "",
+    "summary": "\\n\\n[00:00-00:23]: The video clearly depicts a simulated scenario matching the use case of providing robotic support for an elderly person with mobility strain. A person acts out the difficulties of an elderly individual, including a hunched posture and the need for a walking aid, from 00:00 to 00:18. The other specified use cases, waste segregation and food assistance for the homeless, were not observed in the video.",
+    "nomadic_summary": "\\n\\n[00:00-00:23]: The video clearly depicts a simulated scenario matching the use case of providing robotic support for an elderly person with mobility strain. A person acts out the difficulties of an elderly individual, including a hunched posture and the need for a walking aid, from 00:00 to 00:18. The other specified use cases, waste segregation and food assistance for the homeless, were not observed in the video.",
+    "confidence": 100,
+    "event_count": 1,
+    "event_labels": [
+      "Support for Elderly with Mobility Strain"
+    ],
+    "analyzed_at": "2026-03-15T07:00:28.903983+00:00",
+    "thumbnail": null
+  },
+  {
+    "filename": "g1_backflip.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/g1_backflip.mp4",
+    "thumbnail": "g1_backflip_frame_0.png",
+    "status": "classified",
+    "use_case": "disaster-response",
+    "use_case_title": "Disaster Response",
+    "summary": "Events found across the video:\\n\\n[00:00-00:03]: The video shows a simulation of a humanoid robot performing a complex acrobatic maneuver from 00:00 to 00:03. The analysis details the robot's actions, potential applications in disaster response and healthcare, and rates the technology as having high technical complexity and high potential humanitarian impact.",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:03]: The video shows a simulation of a humanoid robot performing a complex acrobatic maneuver from 00:00 to 00:03. The analysis details the robot's actions, potential applications in disaster response and healthcare, and rates the technology as having high technical complexity and high potential humanitarian impact.",
+    "confidence": 99,
+    "event_count": 1,
+    "event_labels": [
+      "Robot Behavior Analysis"
+    ],
+    "analyzed_at": "2026-03-15T14:42:44.887017+00:00"
+  },
+  {
+    "filename": "g1_backflip_omnixtreme.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/g1_backflip_omnixtreme.mp4",
+    "thumbnail": "g1_backflip_frame_0.png",
+    "status": "classified",
+    "use_case": "disaster-response",
+    "use_case_title": "Disaster Response",
+    "summary": "Events found across the video:\\n\\n[00:00-00:16]: The video features a simulation of a Unitree humanoid robot executing a complex backflip. The analysis details the type of robot, the specific actions performed throughout the maneuver, potential applications for social good such as disaster response and healthcare, and an assessment of the high technical complexity and high potential humanitarian impact.",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:16]: The video features a simulation of a Unitree humanoid robot executing a complex backflip. The analysis details the type of robot, the specific actions performed throughout the maneuver, potential applications for social good such as disaster response and healthcare, and an assessment of the high technical complexity and high potential humanitarian impact.",
+    "confidence": 100,
+    "event_count": 1,
+    "event_labels": [
+      "Robotic Maneuver Analysis"
+    ],
+    "analyzed_at": "2026-03-15T14:43:34.238257+00:00"
+  },
+  {
+    "filename": "g1_kitchen_dance_in_da_party_001__A464.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/g1_kitchen_dance_in_da_party_001__A464.mp4",
+    "thumbnail": "g1_kitchen_frame_0.png",
+    "status": "classified",
+    "use_case": "disaster-response",
+    "use_case_title": "Disaster Response",
+    "summary": "Events found across the video:\\n\\n[00:00-00:09]: 1) The video shows a physics-based simulation of a bipedal, humanoid robot. 2) The robot's primary actions consist of attempting to walk, slipping on an object at 00:00, falling, and subsequently struggling on the ground in a failed attempt to recover from 00:02 to 00:09. 3) This research into robot balance and fall recovery has significant applications for social good. For example, in disaster response, robots could navigate rubble to find survivors; in elder care, they could provide mobility assistance, where stability is critical. 4) The technical complexity is rated as High, as achieving robust bipedal locomotion and recovery from falls is a major challenge in robotics. The potential humanitarian impact is also rated as High, given that successful, robust humanoid robots could transform safety in hazardous jobs, disaster relief, and assistive care for vulnerable populations.",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:09]: 1) The video shows a physics-based simulation of a bipedal, humanoid robot. 2) The robot's primary actions consist of attempting to walk, slipping on an object at 00:00, falling, and subsequently struggling on the ground in a failed attempt to recover from 00:02 to 00:09. 3) This research into robot balance and fall recovery has significant applications for social good. For example, in disaster response, robots could navigate rubble to find survivors; in elder care, they could provide mobility assistance, where stability is critical. 4) The technical complexity is rated as High, as achieving robust bipedal locomotion and recovery from falls is a major challenge in robotics. The potential humanitarian impact is also rated as High, given that successful, robust humanoid robots could transform safety in hazardous jobs, disaster relief, and assistive care for vulnerable populations.",
+    "confidence": 100,
+    "event_count": 2,
+    "event_labels": [
+      "Robot Fall",
+      "Robot Recovery Failure"
+    ],
+    "analyzed_at": "2026-03-15T14:44:23.529204+00:00"
+  },
+  {
+    "filename": "g1_kitchen_tired_one_leg_jumping_R_001__A359.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/g1_kitchen_tired_one_leg_jumping_R_001__A359.mp4",
+    "thumbnail": "g1_kitchen_frame_0.png",
+    "status": "classified",
+    "use_case": "disaster-response",
+    "use_case_title": "Disaster Response",
+    "summary": "Events found across the video:\\n\\n[00:00-00:09]: The video shows a physics-based simulation where a humanoid robot trips and falls between 00:00 and 00:01. This analysis addresses the type of simulation, the robot's behavior, its potential applications for social good (e.g., elder care, disaster response), and rates both the technical complexity and potential humanitarian impact as high.",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:09]: The video shows a physics-based simulation where a humanoid robot trips and falls between 00:00 and 00:01. This analysis addresses the type of simulation, the robot's behavior, its potential applications for social good (e.g., elder care, disaster response), and rates both the technical complexity and potential humanitarian impact as high.",
+    "confidence": 100,
+    "event_count": 1,
+    "event_labels": [
+      "Fall Event"
+    ],
+    "analyzed_at": "2026-03-15T14:45:16.837501+00:00"
+  },
+  {
+    "filename": "g1_kitchen_walk.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/g1_kitchen_walk.mp4",
+    "thumbnail": "g1_kitchen_frame_0.png",
+    "status": "classified",
+    "use_case": "disaster-response",
+    "use_case_title": "Disaster Response",
+    "summary": "Events found across the video:\\n\\n[00:00-00:14]: The video shows a simulation of a bipedal, humanoid robot. The robot's primary action is scattering several objects with its feet (00:00-00:02) and then holding a stable posture (00:03-00:14). The technical complexity demonstrated is high, involving dynamic balance and multi-contact physics. This capability has a high potential humanitarian impact, with applications in disaster response (navigating cluttered debris fields to find survivors), elder care (assisting with household tasks), and environmental cleanup (collecting waste in unstructured environments).",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:14]: The video shows a simulation of a bipedal, humanoid robot. The robot's primary action is scattering several objects with its feet (00:00-00:02) and then holding a stable posture (00:03-00:14). The technical complexity demonstrated is high, involving dynamic balance and multi-contact physics. This capability has a high potential humanitarian impact, with applications in disaster response (navigating cluttered debris fields to find survivors), elder care (assisting with household tasks), and environmental cleanup (collecting waste in unstructured environments).",
+    "confidence": 98,
+    "event_count": 2,
+    "event_labels": [
+      "Robot Action: Object Manipulation",
+      "Robot State: Stable Posture"
+    ],
+    "analyzed_at": "2026-03-15T14:46:00.025287+00:00"
+  },
+  {
+    "filename": "g1_simulation.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/g1_simulation.mp4",
+    "thumbnail": null,
+    "status": "classified",
+    "use_case": "disaster-response",
+    "use_case_title": "Disaster Response",
+    "summary": "Events found across the video:\\n\\n[00:00-00:04]: The video from 00:00 to 00:04 shows a static 3D simulation of a humanoid robot within the Unity engine. While the robot performs no actions, the analysis notes that the technical complexity of this field is high, and its potential humanitarian impact in areas like disaster response and healthcare is significant.",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:04]: The video from 00:00 to 00:04 shows a static 3D simulation of a humanoid robot within the Unity engine. While the robot performs no actions, the analysis notes that the technical complexity of this field is high, and its potential humanitarian impact in areas like disaster response and healthcare is significant.",
+    "confidence": 100,
+    "event_count": 1,
+    "event_labels": [
+      "Robotics Simulation Analysis"
+    ],
+    "analyzed_at": "2026-03-15T14:46:39.661882+00:00"
+  },
+  {
+    "filename": "g1_sonic_cpp_video.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/g1_sonic_cpp_video.mp4",
+    "thumbnail": "g1_sonic_stand_frame.png",
+    "status": "classified",
+    "use_case": "disaster-response",
+    "use_case_title": "Disaster Response",
+    "summary": "Events found across the video:\\n\\n[00:00-00:09]: The video from 00:00 to 00:09 displays a simulation of a humanoid robot attempting to recover from a fallen position. The analysis identifies this as a test of complex fall recovery algorithms. While the robot fails in this instance, the underlying research has high technical complexity and significant potential for humanitarian applications, including disaster response, elder care, and environmental cleanup.",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:09]: The video from 00:00 to 00:09 displays a simulation of a humanoid robot attempting to recover from a fallen position. The analysis identifies this as a test of complex fall recovery algorithms. While the robot fails in this instance, the underlying research has high technical complexity and significant potential for humanitarian applications, including disaster response, elder care, and environmental cleanup.",
+    "confidence": 98,
+    "event_count": 1,
+    "event_labels": [
+      "Robot Fall Recovery Attempt"
+    ],
+    "analyzed_at": "2026-03-15T14:47:27.426131+00:00"
+  },
+  {
+    "filename": "g1_sonic_stand.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/g1_sonic_stand.mp4",
+    "thumbnail": "g1_sonic_stand_frame.png",
+    "status": "classified",
+    "use_case": "disaster-response",
+    "use_case_title": "Disaster Response",
+    "summary": "Events found across the video:\\n\\n[00:00-00:04]: This video displays a simulation of a bipedal, humanoid robot, identified by the 'UNITREE' branding on its chest. Throughout the video from 00:00 to 00:04, the robot performs a continuous rhythmic squatting motion, demonstrating a high degree of technical complexity in dynamic balance and control. Such capabilities have significant potential for social good. For example, in disaster response, this robot could navigate rubble; in healthcare and elder care, it could assist with patient mobility; and in environmental cleanup, it could handle hazardous materials. The technical complexity is rated as high, and the potential humanitarian impact is also high, given its wide range of applications in tasks that are dangerous or difficult for humans. While the standard categories (Driving, Aerial, Security, Environment) do not perfectly fit this demonstration, the analysis addresses the specific robotics-focused query.",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:04]: This video displays a simulation of a bipedal, humanoid robot, identified by the 'UNITREE' branding on its chest. Throughout the video from 00:00 to 00:04, the robot performs a continuous rhythmic squatting motion, demonstrating a high degree of technical complexity in dynamic balance and control. Such capabilities have significant potential for social good. For example, in disaster response, this robot could navigate rubble; in healthcare and elder care, it could assist with patient mobility; and in environmental cleanup, it could handle hazardous materials. The technical complexity is rated as high, and the potential humanitarian impact is also high, given its wide range of applications in tasks that are dangerous or difficult for humans. While the standard categories (Driving, Aerial, Security, Environment) do not perfectly fit this demonstration, the analysis addresses the specific robotics-focused query.",
+    "confidence": 100,
+    "event_count": 1,
+    "event_labels": [
+      "Robot Performing Squatting Motion"
+    ],
+    "analyzed_at": "2026-03-15T14:48:13.964123+00:00"
+  },
+  {
+    "filename": "g1_sonic_walk.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/g1_sonic_walk.mp4",
+    "thumbnail": "g1_sonic_stand_frame.png",
+    "status": "classified",
+    "use_case": "disaster-response",
+    "use_case_title": "Disaster Response",
+    "summary": "Events found across the video:\\n\\n[00:00-00:09]: The video shows a simulation of a bipedal humanoid robot, likely a model from Unitree based on the logo on its chest. The robot performs a continuous rhythmic swaying or dancing motion, demonstrating advanced dynamic balance and coordination. This technology has significant potential for social good. In disaster response, it could navigate dangerous terrain to find survivors. For elder care and accessibility, it could provide mobility support and assistance with daily tasks. In healthcare, it could automate logistics or aid in patient rehabilitation. Technical Complexity: High. Developing a bipedal robot with such fluid and stable motion requires sophisticated control algorithms and hardware. Potential Humanitarian Impact: High. This technology could enhance safety in hazardous jobs, improve quality of life for vulnerable populations, and increase efficiency in critical services.",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:09]: The video shows a simulation of a bipedal humanoid robot, likely a model from Unitree based on the logo on its chest. The robot performs a continuous rhythmic swaying or dancing motion, demonstrating advanced dynamic balance and coordination. This technology has significant potential for social good. In disaster response, it could navigate dangerous terrain to find survivors. For elder care and accessibility, it could provide mobility support and assistance with daily tasks. In healthcare, it could automate logistics or aid in patient rehabilitation. Technical Complexity: High. Developing a bipedal robot with such fluid and stable motion requires sophisticated control algorithms and hardware. Potential Humanitarian Impact: High. This technology could enhance safety in hazardous jobs, improve quality of life for vulnerable populations, and increase efficiency in critical services.",
+    "confidence": 100,
+    "event_count": 1,
+    "event_labels": [
+      "Robot Rhythmic Motion"
+    ],
+    "analyzed_at": "2026-03-15T14:49:02.517375+00:00"
+  },
+  {
+    "filename": "g1_walk_unitree.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/g1_walk_unitree.mp4",
+    "thumbnail": null,
+    "status": "classified",
+    "use_case": "disaster-response",
+    "use_case_title": "Disaster Response",
+    "summary": "Events found across the video:\\n\\n[00:00-00:09]: 1) Robot/Simulation Type: The video shows a computer simulation of a bipedal, humanoid robot. Based on the 'unitree' logo on its chest, it is likely a simulation of a Unitree Robotics model, such as the H1. The environment is a standard grid-based simulation plane. 2) Actions/Behaviors: The robot performs a balancing behavior. From 00:00 to 00:09, it remains in a crouched, athletic stance, making continuous micro-adjustments to maintain its stability, but does not walk or perform any other complex tasks. 3) Social Good Applications: This technology could be applied to disaster response for search and rescue in unsafe structures, elder care for mobility assistance, healthcare as a robotic orderly, or environmental cleanup in hazardous zones. 4) Complexity and Impact: The technical complexity is rated as 'High' due to the significant challenges in achieving stable bipedal locomotion. The potential humanitarian impact is also 'High', as these robots could save lives, improve quality of life for the elderly and disabled, and protect humans from dangerous work.",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:09]: 1) Robot/Simulation Type: The video shows a computer simulation of a bipedal, humanoid robot. Based on the 'unitree' logo on its chest, it is likely a simulation of a Unitree Robotics model, such as the H1. The environment is a standard grid-based simulation plane. 2) Actions/Behaviors: The robot performs a balancing behavior. From 00:00 to 00:09, it remains in a crouched, athletic stance, making continuous micro-adjustments to maintain its stability, but does not walk or perform any other complex tasks. 3) Social Good Applications: This technology could be applied to disaster response for search and rescue in unsafe structures, elder care for mobility assistance, healthcare as a robotic orderly, or environmental cleanup in hazardous zones. 4) Complexity and Impact: The technical complexity is rated as 'High' due to the significant challenges in achieving stable bipedal locomotion. The potential humanitarian impact is also 'High', as these robots could save lives, improve quality of life for the elderly and disabled, and protect humans from dangerous work.",
+    "confidence": 100,
+    "event_count": 1,
+    "event_labels": [
+      "Humanoid Robot Simulation"
+    ],
+    "analyzed_at": "2026-03-15T14:49:49.633273+00:00"
+  },
+  {
+    "filename": "g1_walking.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/g1_walking.mp4",
+    "thumbnail": null,
+    "status": "classified",
+    "use_case": "robotics-research",
+    "use_case_title": "Robotics Research",
+    "summary": "Events found across the video:\\n\\n[00:00-00:07]: The video shows a simulation of a humanoid robot losing its balance and falling backward onto a gridded floor, where it remains for the duration of the clip.",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:07]: The video shows a simulation of a humanoid robot losing its balance and falling backward onto a gridded floor, where it remains for the duration of the clip.",
+    "confidence": 100,
+    "event_count": 1,
+    "event_labels": [
+      "Robot Fall Simulation Analysis"
+    ],
+    "analyzed_at": "2026-03-15T14:50:36.272999+00:00"
+  },
+  {
+    "filename": "go2_trained.mp4",
+    "source": "home-robotics",
+    "path": "/home/thor/go2_trained.mp4",
+    "thumbnail": null,
+    "status": "classified",
+    "use_case": "disaster-response",
+    "use_case_title": "Disaster Response",
+    "summary": "Events found across the video:\\n\\n[00:00-00:05]: The video presents a simulation of a multi-agent system of quadrupedal robots from 00:00 to 00:05. The robots demonstrate complex, coordinated pathfinding and collision avoidance. This type of swarm robotics technology has high technical complexity and significant potential for positive humanitarian impact in fields like disaster response, environmental cleanup, and agriculture.",
+    "nomadic_summary": "Events found across the video:\\n\\n[00:00-00:05]: The video presents a simulation of a multi-agent system of quadrupedal robots from 00:00 to 00:05. The robots demonstrate complex, coordinated pathfinding and collision avoidance. This type of swarm robotics technology has high technical complexity and significant potential for positive humanitarian impact in fields like disaster response, environmental cleanup, and agriculture.",
+    "confidence": 99,
+    "event_count": 1,
+    "event_labels": [
+      "Multi-Agent Robot Simulation Analysis"
+    ],
+    "analyzed_at": "2026-03-15T14:51:29.345136+00:00"
+  }
+]

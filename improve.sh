@@ -53,7 +53,15 @@ if [ ! -f js/main.min.js ] || [ js/main.js -nt js/main.min.js ]; then
     echo "[$TIMESTAMP] JS minified" >> "$LOG_FILE"
 fi
 
-# 5. Git commit any changes
+# 5. Run NomadicML labeling on any new videos
+if [ -n "$NOMADICML_API_KEY" ]; then
+    python3 label_videos.py >> "$LOG_FILE" 2>&1
+    echo "[$TIMESTAMP] Video labeling check complete" >> "$LOG_FILE"
+else
+    echo "[$TIMESTAMP] NOMADICML_API_KEY not set, skipping video labeling" >> "$LOG_FILE"
+fi
+
+# 6. Git commit any changes
 if [ -n "$(git status --porcelain)" ]; then
     git add -A
     git commit -m "Auto-improvement: $TIMESTAMP - updated stats and optimizations"
