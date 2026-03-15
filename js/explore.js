@@ -1,23 +1,17 @@
-// ===== EXPLORE PAGE - Load and display open datasets =====
-
-const CATEGORY_MAP = {
-    'waste-segregation': { grid: 'wasteGrid', count: 'wasteCount', emoji: '♻️' },
-    'food-outreach': { grid: 'foodGrid', count: 'foodCount', emoji: '🍕' },
-    'elder-support': { grid: 'elderGrid', count: 'elderCount', emoji: '🧓' },
-};
+// ===== EXPLORE PAGE =====
 
 const ROBOTICS_CASES = ['disaster-response', 'robotics-research', 'general-robotics', 'agriculture', 'ocean-cleanup', 'healthcare'];
 
-const CATEGORY_EMOJI = {
-    'waste-segregation': '♻️',
-    'food-outreach': '🍕',
-    'elder-support': '🧓',
-    'disaster-response': '🚑',
-    'robotics-research': '🤖',
-    'general-robotics': '⚙️',
-    'agriculture': '🌾',
-    'ocean-cleanup': '🌊',
-    'healthcare': '🏥',
+const CATEGORY_LABELS = {
+    'waste-segregation': 'Waste Segregation',
+    'food-outreach': 'Food Assistance',
+    'elder-support': 'Elder Support',
+    'disaster-response': 'Disaster Response',
+    'robotics-research': 'Robotics Research',
+    'general-robotics': 'General Robotics',
+    'agriculture': 'Agriculture',
+    'ocean-cleanup': 'Ocean Cleanup',
+    'healthcare': 'Healthcare',
 };
 
 function prettifyName(filename) {
@@ -30,154 +24,144 @@ function prettifyName(filename) {
         .replace(/^Go2 /i, 'Unitree Go2 ');
 }
 
-function cleanSummary(summary) {
-    if (!summary) return 'Awaiting analysis...';
-    return summary.replace(/\\n/g, ' ').replace(/\[[\d:-]+\]/g, '').replace(/\s+/g, ' ').trim();
+function cleanSummary(s) {
+    if (!s) return '';
+    return s.replace(/\\n/g, ' ').replace(/\[[\d:-]+\]/g, '').replace(/\s+/g, ' ').trim();
 }
 
-function truncate(text, len = 120) {
-    const clean = cleanSummary(text);
-    return clean.length > len ? clean.substring(0, len) + '...' : clean;
-}
-
-function createDataCard(item) {
+function createThumbCard(item) {
     const card = document.createElement('div');
-    card.className = 'data-card';
-    card.onclick = () => showDatasetModal(item);
+    card.className = 'thumb-card';
+    card.dataset.category = item.use_case;
+    card.onclick = () => openDetail(item);
 
-    const labels = (item.event_labels || []).slice(0, 2);
-    const confidence = item.confidence || 0;
     const thumb = item.thumbnail ? `assets/${item.thumbnail}` : null;
+    const cat = CATEGORY_LABELS[item.use_case] || item.use_case;
+    const conf = item.confidence || 0;
+    const labels = (item.event_labels || []).slice(0, 2);
 
     card.innerHTML = `
-        ${thumb ? `<div class="data-card-thumb"><img src="${thumb}" alt="${item.filename}" loading="lazy"></div>` : ''}
-        <div class="data-card-top">
-            <span class="data-card-name">${prettifyName(item.filename)}</span>
-            <span class="data-card-status ${item.status || 'pending'}">${item.status === 'classified' ? 'Labeled' : 'Pending'}</span>
+        <div class="thumb-img">
+            ${thumb ? `<img src="${thumb}" alt="${prettifyName(item.filename)}" loading="lazy">` : `<div class="no-img">📊</div>`}
+            <span class="thumb-badge">NomadicML</span>
         </div>
-        <p class="data-card-summary">${truncate(item.summary)}</p>
-        <div class="data-card-meta">
-            <span class="data-card-confidence">Confidence: <strong>${confidence}%</strong></span>
-            <div class="data-card-labels">
-                ${labels.map(l => `<span class="data-card-label">${l}</span>`).join('')}
+        <div class="thumb-body">
+            <div class="thumb-title">${prettifyName(item.filename)}</div>
+            <div class="thumb-meta">
+                <span class="thumb-category">${cat}</span>
+                <span class="thumb-confidence">${conf}%</span>
             </div>
-            <span class="data-card-download">Open Source ↗</span>
+            ${labels.length ? `<div class="thumb-labels">${labels.map(l => `<span class="thumb-label">${l}</span>`).join('')}</div>` : ''}
         </div>
     `;
     return card;
 }
 
-function showDatasetModal(item) {
+function openDetail(item) {
     const modal = document.getElementById('datasetModal');
-    const content = document.getElementById('datasetModalContent');
-    const emoji = CATEGORY_EMOJI[item.use_case] || '📊';
-    const confidence = item.confidence || 0;
+    const content = document.getElementById('detailContent');
+    const thumb = item.thumbnail ? `assets/${item.thumbnail}` : null;
+    const cat = CATEGORY_LABELS[item.use_case] || item.use_case;
+    const conf = item.confidence || 0;
     const labels = item.event_labels || [];
+    const summary = cleanSummary(item.summary || item.nomadic_summary);
 
     content.innerHTML = `
-        <div class="modal-dataset-header">
-            <div class="modal-dataset-icon">${emoji}</div>
-            <div>
-                <div class="modal-dataset-title">${prettifyName(item.filename)}</div>
-                <div class="modal-dataset-meta">${item.use_case_title || item.use_case} &middot; ${item.source || 'community'} &middot; ${item.event_count || 0} events detected</div>
+        ${thumb ? `<div class="detail-hero"><img src="${thumb}" alt=""></div>` : ''}
+        <div class="detail-body">
+            <div class="detail-title">${prettifyName(item.filename)}</div>
+            <div class="detail-subtitle">${cat} · ${item.source || 'community'} · ${item.event_count || 0} events</div>
+
+            <div class="detail-section">
+                <div class="detail-section-title">Analysis</div>
+                <p>${summary || 'Awaiting analysis...'}</p>
             </div>
-        </div>
 
-        <div class="modal-section">
-            <h4>NomadicML Analysis</h4>
-            <p>${cleanSummary(item.summary)}</p>
-        </div>
-
-        ${labels.length > 0 ? `
-        <div class="modal-section">
-            <h4>Detected Labels</h4>
-            <div class="modal-labels">
-                ${labels.map(l => `<span class="modal-label">${l}</span>`).join('')}
+            ${labels.length ? `
+            <div class="detail-section">
+                <div class="detail-section-title">Labels</div>
+                <div class="detail-tags">
+                    ${labels.map(l => `<span class="detail-tag">${l}</span>`).join('')}
+                </div>
             </div>
-        </div>
-        ` : ''}
+            ` : ''}
 
-        <div class="modal-section">
-            <h4>AI Confidence: ${confidence}%</h4>
-            <div class="modal-confidence-bar">
-                <div class="modal-confidence-fill" style="width: ${confidence}%"></div>
+            <div class="detail-section">
+                <div class="detail-section-title">Confidence</div>
+                <div class="detail-conf-row">
+                    <span class="detail-conf-num">${conf}%</span>
+                    <div class="detail-conf-bar">
+                        <div class="detail-conf-fill" style="width:${conf}%"></div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="modal-section">
-            <h4>License</h4>
-            <p>CC-BY-4.0 — Free to use, share, and adapt with attribution.</p>
-        </div>
+            <div class="detail-section">
+                <div class="detail-section-title">License</div>
+                <p>CC-BY-4.0 — Free to use, share, and adapt.</p>
+            </div>
 
-        ${item.analyzed_at ? `
-        <div class="modal-section">
-            <h4>Labeled At</h4>
-            <p>${new Date(item.analyzed_at).toLocaleString()}</p>
-        </div>
-        ` : ''}
+            ${item.analyzed_at ? `
+            <div class="detail-section">
+                <div class="detail-section-title">Labeled</div>
+                <p>${new Date(item.analyzed_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+            </div>
+            ` : ''}
 
-        <div class="modal-download-btn">
-            <a href="labels.json" download class="btn btn-primary btn-full">Download Labels (JSON)</a>
+            <div class="detail-actions">
+                <a href="labels.json" download class="btn btn-white">Download JSON</a>
+                <a href="index.html#upload" class="btn btn-outline">Donate Data & Get Paid</a>
+            </div>
         </div>
     `;
     modal.classList.add('active');
 }
 
-async function loadExploreData() {
+async function loadData() {
     try {
         const res = await fetch('labels.json');
-        if (!res.ok) throw new Error('labels.json not found');
+        if (!res.ok) throw new Error();
         const labels = await res.json();
+        const grid = document.getElementById('thumbGrid');
 
-        // Count totals
-        document.getElementById('totalDatasets').textContent = labels.length;
-        document.getElementById('totalLabeled').textContent = labels.filter(l => l.status === 'classified').length;
+        document.getElementById('totalCount').textContent = `${labels.length} datasets`;
 
-        // Sort into categories
-        const waste = labels.filter(l => l.use_case === 'waste-segregation');
-        const food = labels.filter(l => l.use_case === 'food-outreach');
-        const elder = labels.filter(l => l.use_case === 'elder-support');
-        const robotics = labels.filter(l => ROBOTICS_CASES.includes(l.use_case));
+        function render(filter) {
+            grid.innerHTML = '';
+            let filtered;
+            if (filter === 'all') filtered = labels;
+            else if (filter === 'robotics') filtered = labels.filter(l => ROBOTICS_CASES.includes(l.use_case));
+            else filtered = labels.filter(l => l.use_case === filter);
 
-        // Update counts
-        document.getElementById('wasteCount').textContent = waste.length;
-        document.getElementById('foodCount').textContent = food.length;
-        document.getElementById('elderCount').textContent = elder.length;
-        document.getElementById('roboticsCount').textContent = robotics.length;
-
-        // Populate grids
-        const wasteGrid = document.getElementById('wasteGrid');
-        const foodGrid = document.getElementById('foodGrid');
-        const elderGrid = document.getElementById('elderGrid');
-        const roboticsGrid = document.getElementById('roboticsGrid');
-
-        function fillGrid(grid, items) {
-            if (items.length === 0) {
-                grid.innerHTML = '<div class="data-empty">No datasets yet. Be the first to contribute!</div>';
+            if (!filtered.length) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--text-muted);font-size:0.85rem;">No datasets in this category yet.</div>';
                 return;
             }
-            items.forEach(item => grid.appendChild(createDataCard(item)));
+            filtered.forEach(item => grid.appendChild(createThumbCard(item)));
         }
 
-        fillGrid(wasteGrid, waste);
-        fillGrid(foodGrid, food);
-        fillGrid(elderGrid, elder);
-        fillGrid(roboticsGrid, robotics);
+        render('all');
+
+        document.getElementById('filterBar').addEventListener('click', e => {
+            if (!e.target.classList.contains('pill')) return;
+            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+            e.target.classList.add('active');
+            render(e.target.dataset.filter);
+        });
 
     } catch (err) {
-        console.error('Failed to load explore data:', err);
+        console.error('Failed to load data:', err);
     }
 }
 
-// Modal close handlers
-document.getElementById('dataModalClose').addEventListener('click', () => {
+// Detail panel close
+document.getElementById('detailClose').addEventListener('click', () => {
     document.getElementById('datasetModal').classList.remove('active');
 });
-document.getElementById('datasetModal').addEventListener('click', (e) => {
+document.getElementById('datasetModal').addEventListener('click', e => {
     if (e.target === document.getElementById('datasetModal')) {
         document.getElementById('datasetModal').classList.remove('active');
     }
 });
 
-// Load data
-loadExploreData();
+loadData();
