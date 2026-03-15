@@ -4,6 +4,13 @@
 
 cd /home/thor/robotics-for-social-good
 
+# Load env vars from .env
+if [ -f .env ]; then
+    set -a
+    source .env
+    set +a
+fi
+
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 LOG_FILE="/home/thor/robotics-for-social-good/improve.log"
 

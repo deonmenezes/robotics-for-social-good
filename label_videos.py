@@ -7,7 +7,19 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).resolve().parent / ".env")
+except ImportError:
+    pass
+
 from nomadicml import AnalysisType, NomadicML
+
+try:
+    import boto3
+    HAS_BOTO3 = True
+except ImportError:
+    HAS_BOTO3 = False
 
 BASE_DIR = Path(__file__).resolve().parent
 LABELS_FILE = BASE_DIR / "labels.json"
@@ -251,6 +263,69 @@ def main():
 
     save_labels(labels)
     print(f"\nDone! {len(labels)} total videos labeled. Results in {LABELS_FILE}")
+
+    # Sync to S3 if AWS credentials are available
+    sync_to_s3()
+
+
+def sync_to_s3():
+    """Upload labels.json and assets to S3 for backend persistence."""
+    bucket = os.environ.get("AWS_S3_BUCKET", "robotics-for-social-good")
+    region = os.environ.get("AWS_DEFAULT_REGION", "us-east-1")
+
+    if not os.environ.get("AWS_ACCESS_KEY_ID") or not os.environ.get("AWS_SECRET_ACCESS_KEY"):
+        print("AWS credentials not set, skipping S3 sync.")
+        return
+
+    if not HAS_BOTO3:
+        print("boto3 not installed, skipping S3 sync. Run: pip install boto3")
+        return
+
+    try:
+        s3 = boto3.client(
+            "s3",
+            region_name=region,
+            aws_access_key_id=os.environ["AWS_ACCESS_KEY_ID"],
+            aws_secret_access_key=os.environ["AWS_SECRET_ACCESS_KEY"],
+        )
+
+        # Ensure bucket exists
+        try:
+            s3.head_bucket(Bucket=bucket)
+        except Exception:
+            print(f"Creating S3 bucket: {bucket}")
+            try:
+                if region == "us-east-1":
+                    s3.create_bucket(Bucket=bucket)
+                else:
+                    s3.create_bucket(
+                        Bucket=bucket,
+                        CreateBucketConfiguration={"LocationConstraint": region},
+                    )
+            except Exception as e:
+                print(f"Could not create bucket: {e}")
+                return
+
+        # Upload labels.json
+        s3.upload_file(
+            str(LABELS_FILE), bucket, "data/labels.json",
+            ExtraArgs={"ContentType": "application/json"},
+        )
+        print(f"Uploaded labels.json to s3://{bucket}/data/labels.json")
+
+        # Upload thumbnails
+        assets_dir = BASE_DIR / "assets"
+        if assets_dir.exists():
+            for img in assets_dir.glob("*.png"):
+                s3.upload_file(
+                    str(img), bucket, f"assets/{img.name}",
+                    ExtraArgs={"ContentType": "image/png"},
+                )
+            print(f"Uploaded {len(list(assets_dir.glob('*.png')))} thumbnails to S3")
+
+        print("S3 sync complete.")
+    except Exception as e:
+        print(f"S3 sync error: {e}")
 
 
 if __name__ == "__main__":
