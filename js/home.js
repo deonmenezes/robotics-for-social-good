@@ -39,7 +39,7 @@ function showToast(message) {
 function animateCounters() {
     const counters = document.querySelectorAll('.stat-number');
     counters.forEach(counter => {
-        const target = parseInt(counter.dataset.target);
+        const target = parseInt(counter.dataset.target, 10);
         const duration = 2000;
         const start = performance.now();
 
@@ -55,7 +55,6 @@ function animateCounters() {
     });
 }
 
-// Start counter animation when hero is in view
 const heroStats = document.querySelector('.hero-stats');
 if (heroStats) {
     const heroObserver = new IntersectionObserver((entries) => {
@@ -72,7 +71,7 @@ if (heroStats) {
 // ===== SCROLL REVEAL =====
 function setupReveal() {
     const elements = document.querySelectorAll(
-        '.feature-card, .pipeline-step, .impact-card, .pricing-card, .upload-card, .payment-card, .cta-card'
+        '.feature-card, .pipeline-step, .impact-card, .pricing-card, .upload-card, .payment-card, .cta-card, .marketplace-shell'
     );
     elements.forEach(el => el.classList.add('reveal'));
 
@@ -118,7 +117,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
 // ===== VIDEO SHOWCASE =====
 const CATEGORY_EMOJI = {
-    'waste-segregation': '♻️',
+    'waste-segregation': '♻',
     'food-outreach': '🍕',
     'elder-support': '🧓',
     'disaster-response': '🚑',
@@ -126,7 +125,7 @@ const CATEGORY_EMOJI = {
     'agriculture': '🌾',
     'ocean-cleanup': '🌊',
     'healthcare': '🏥',
-    'general-robotics': '⚙️',
+    'general-robotics': '⚙',
     'needs-review': '🔍',
 };
 
@@ -140,7 +139,11 @@ function prettifyName(filename) {
         .replace(/^Go2 /i, 'Unitree Go2 ');
 }
 
-function truncateSummary(summary, maxLen = 150) {
+function prettifyCategory(category) {
+    return category.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function truncateSummary(summary, maxLen = 160) {
     if (!summary) return 'Awaiting analysis...';
     const clean = summary.replace(/\\n/g, ' ').replace(/\[[\d:]+\]/g, '').trim();
     return clean.length > maxLen ? clean.substring(0, maxLen) + '...' : clean;
@@ -149,59 +152,127 @@ function truncateSummary(summary, maxLen = 150) {
 async function loadShowcase() {
     const grid = document.getElementById('showcaseGrid');
     const filtersEl = document.getElementById('showcaseFilters');
-    if (!grid) return;
+    const searchForm = document.getElementById('showcaseSearchForm');
+    const searchInput = document.getElementById('showcaseSearchInput');
+    const sortEl = document.getElementById('showcaseSorts');
+    const resultsCount = document.getElementById('showcaseResultsCount');
+    const datasetCount = document.getElementById('marketplaceDatasetCount');
+    const emptyState = document.getElementById('showcaseEmpty');
+
+    if (!grid || !filtersEl) return;
 
     try {
         const res = await fetch('labels.json');
         if (!res.ok) throw new Error('labels.json not found');
         const labels = await res.json();
+        const state = {
+            filter: 'all',
+            sort: 'confidence',
+            query: '',
+        };
 
-        // Build filter buttons
+        if (datasetCount) {
+            datasetCount.textContent = `${labels.length.toLocaleString()} datasets`;
+        }
+
         const categories = [...new Set(labels.map(v => v.use_case))];
         categories.forEach(cat => {
             const btn = document.createElement('button');
             btn.className = 'filter-btn';
+            btn.type = 'button';
             btn.dataset.filter = cat;
-            btn.textContent = (CATEGORY_EMOJI[cat] || '') + ' ' + (cat.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()));
+            btn.textContent = `${CATEGORY_EMOJI[cat] || '•'} ${prettifyCategory(cat)}`;
             filtersEl.appendChild(btn);
         });
 
-        // Render cards
-        function renderCards(filter) {
-            const filtered = filter === 'all' ? labels : labels.filter(v => v.use_case === filter);
+        function getFilteredLabels() {
+            const query = state.query.trim().toLowerCase();
+            const filtered = labels.filter(video => {
+                const matchesFilter = state.filter === 'all' || video.use_case === state.filter;
+                if (!matchesFilter) return false;
+                if (!query) return true;
+
+                const haystack = [
+                    video.filename,
+                    video.source,
+                    video.use_case,
+                    video.use_case_title,
+                    video.summary,
+                    video.nomadic_summary,
+                    ...(video.event_labels || []),
+                ]
+                    .filter(Boolean)
+                    .join(' ')
+                    .toLowerCase();
+
+                return haystack.includes(query);
+            });
+
+            filtered.sort((a, b) => {
+                if (state.sort === 'events') {
+                    return (b.event_count || 0) - (a.event_count || 0) || (b.confidence || 0) - (a.confidence || 0);
+                }
+                if (state.sort === 'name') {
+                    return prettifyName(a.filename).localeCompare(prettifyName(b.filename));
+                }
+                return (b.confidence || 0) - (a.confidence || 0) || (b.event_count || 0) - (a.event_count || 0);
+            });
+
+            return filtered;
+        }
+
+        function updateSummary(filtered) {
+            if (!resultsCount) return;
+            const scope = state.filter === 'all' ? 'all mission areas' : prettifyCategory(state.filter);
+            const query = state.query.trim() ? ` for "${state.query.trim()}"` : '';
+            resultsCount.textContent = `${filtered.length.toLocaleString()} results in ${scope}${query}`;
+        }
+
+        function renderCards() {
+            const filtered = getFilteredLabels();
             grid.innerHTML = '';
-            document.getElementById('showcaseEmpty').style.display = filtered.length === 0 ? 'block' : 'none';
+            if (emptyState) {
+                emptyState.style.display = filtered.length === 0 ? 'block' : 'none';
+            }
+            updateSummary(filtered);
 
             filtered.forEach(video => {
                 const thumb = video.thumbnail ? `assets/${video.thumbnail}` : null;
                 const confidence = video.confidence || 0;
-                const card = document.createElement('div');
+                const categoryLabel = video.use_case_title || prettifyCategory(video.use_case);
+                const card = document.createElement('article');
                 card.className = 'showcase-card reveal visible';
                 card.dataset.category = video.use_case;
 
                 card.innerHTML = `
                     <div class="showcase-thumb">
+                        <div class="showcase-card-header">
+                            <div class="showcase-category-tag">${categoryLabel}</div>
+                            ${video.status === 'classified'
+                                ? '<div class="showcase-nomadic-badge">NomadicML</div>'
+                                : ''
+                            }
+                        </div>
                         ${thumb
                             ? `<img src="${thumb}" alt="${video.filename}" loading="lazy">`
                             : `<div class="no-thumb">${CATEGORY_EMOJI[video.use_case] || '🤖'}</div>`
                         }
-                        ${video.status === 'classified'
-                            ? '<div class="showcase-nomadic-badge">Labeled by NomadicML</div>'
-                            : ''
-                        }
-                        <div class="showcase-category-tag">${video.use_case_title || video.use_case}</div>
                     </div>
                     <div class="showcase-body">
+                        <p class="showcase-kicker">${video.source || 'Field dataset'}</p>
                         <h3>${prettifyName(video.filename)}</h3>
                         <p class="showcase-summary">${truncateSummary(video.summary || video.nomadic_summary)}</p>
-                        ${video.event_labels && video.event_labels.length > 0 ? `
+                        ${(video.event_labels && video.event_labels.length > 0) ? `
                             <div class="showcase-labels">
-                                ${video.event_labels.slice(0, 3).map(l => `<span class="showcase-label-tag">${l}</span>`).join('')}
+                                ${video.event_labels.slice(0, 3).map(label => `<span class="showcase-label-tag">${label}</span>`).join('')}
                             </div>
                         ` : ''}
                         <div class="showcase-meta">
                             <div class="showcase-confidence">
-                                <span>${confidence}%</span>
+                                <div class="showcase-confidence-top">
+                                    <span class="showcase-confidence-label">Model confidence</span>
+                                    <span class="showcase-confidence-value">${confidence}%</span>
+                                </div>
                                 <div class="confidence-bar">
                                     <div class="confidence-fill" style="width: ${confidence}%"></div>
                                 </div>
@@ -214,16 +285,40 @@ async function loadShowcase() {
             });
         }
 
-        renderCards('all');
-
-        // Filter click handlers
         filtersEl.addEventListener('click', (e) => {
-            if (!e.target.classList.contains('filter-btn')) return;
+            const button = e.target.closest('.filter-btn');
+            if (!button) return;
             filtersEl.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            renderCards(e.target.dataset.filter);
+            button.classList.add('active');
+            state.filter = button.dataset.filter;
+            renderCards();
         });
 
+        if (sortEl) {
+            sortEl.addEventListener('click', (e) => {
+                const button = e.target.closest('.sort-btn');
+                if (!button) return;
+                sortEl.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+                state.sort = button.dataset.sort;
+                renderCards();
+            });
+        }
+
+        if (searchForm && searchInput) {
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                state.query = searchInput.value;
+                renderCards();
+            });
+
+            searchInput.addEventListener('input', () => {
+                state.query = searchInput.value;
+                renderCards();
+            });
+        }
+
+        renderCards();
     } catch (err) {
         console.warn('Could not load showcase:', err);
         grid.innerHTML = '<p style="color: var(--text-muted); text-align: center; grid-column: 1/-1;">Video showcase loading... Run label_videos.py to generate labels.</p>';
@@ -232,4 +327,4 @@ async function loadShowcase() {
 
 loadShowcase();
 
-console.log('Robotics for Social Good — Home loaded successfully');
+console.log('Robotics for Social Good - Home loaded successfully');

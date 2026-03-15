@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robotics for Social Good — Empowering Communities Through Robotics & AI</title>
-    <meta name="description" content="Upload social good datasets, fund robotics research, and build a better world with AI-powered robotics for humanitarian causes.">
+    <title>Robotics for Social Good</title>
+    <meta name="description" content="Browse robotics datasets for social good, search labeled footage, and find the right training data for humanitarian robotics work.">
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <span class="logo-icon">⚙️</span>
+                <span class="logo-icon">R</span>
                 <span class="logo-text">Robotics for Social Good</span>
             </a>
             <ul class="nav-links">
@@ -34,32 +32,28 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
+    <section class="hero hero-compact" id="hero">
         <div class="hero-bg">
             <div class="grid-overlay"></div>
         </div>
         <div class="hero-content">
             <div class="hero-badge">
                 <span class="badge-dot"></span>
-                Open Source &middot; Community Driven &middot; For Humanity
+                Searchable dataset marketplace for humanitarian robotics
             </div>
             <h1 class="hero-title">
-                <span class="gradient-text">Robotics & AI</span><br>
-                for a Better World
+                <span class="gradient-text">Robotics for</span><br>
+                Social Good
             </h1>
             <p class="hero-subtitle">
-                Upload social good datasets, fund humanitarian robotics research,
-                and help build autonomous systems that serve communities in need.
-                From disaster response to accessibility — together we make impact real.
+                The home page is now centered on the video showcase. Search labeled robotics footage, filter by mission area, and compare datasets in one clean browse flow.
             </p>
             <div class="hero-cta">
-                <a href="upload.html" class="btn btn-primary btn-lg">
-                    <span>Donate Data & Get Paid</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <a href="#showcase" class="btn btn-primary btn-lg">
+                    <span>Browse Datasets</span>
                 </a>
-                <a href="explore.html" class="btn btn-secondary btn-lg">
-                    <span>Explore Platform</span>
+                <a href="upload.html" class="btn btn-secondary btn-lg">
+                    <span>Upload Data</span>
                 </a>
             </div>
             <div class="hero-stats">
@@ -77,149 +71,78 @@
                 </div>
             </div>
         </div>
-        <div class="hero-visual">
-            <div class="robot-display">
-                <div class="orbit orbit-1"></div>
-                <div class="orbit orbit-2"></div>
-                <div class="orbit orbit-3"></div>
-                <div class="core-sphere"></div>
-                <div class="data-node node-1">🌍</div>
-                <div class="data-node node-2">🤖</div>
-                <div class="data-node node-3">❤️</div>
-                <div class="data-node node-4">📊</div>
-                <div class="data-node node-5">🔬</div>
-                <div class="data-node node-6">🏥</div>
-            </div>
-        </div>
     </section>
 
-    <!-- About / Mission Section -->
-    <section class="section" id="about">
+    <section class="section marketplace-section" id="showcase">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Our Mission</span>
-                <h2 class="section-title">Technology That Serves <span class="gradient-text">Humanity</span></h2>
-                <p class="section-desc">We believe robotics and AI should be tools for social impact. Our platform connects data contributors, researchers, and communities to accelerate humanitarian robotics.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🚑</div>
-                    <h3>Disaster Response</h3>
-                    <p>Train robots for search & rescue, damage assessment, and supply delivery in disaster zones using real-world datasets.</p>
+            <div class="marketplace-shell">
+                <div class="section-header marketplace-header">
+                    <span class="section-tag">Labeled Datasets</span>
+                    <h2 class="section-title">Video <span class="gradient-text">Showcase</span></h2>
+                    <p class="section-desc">A plain, searchable dataset list built around fast comparison instead of stacked promo sections and card-heavy marketing blocks.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">♿</div>
-                    <h3>Accessibility</h3>
-                    <p>Build assistive robotics that help people with disabilities navigate, communicate, and live independently.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌾</div>
-                    <h3>Sustainable Agriculture</h3>
-                    <p>Precision farming robots that reduce waste, optimize water usage, and increase yields for food-insecure regions.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🏥</div>
-                    <h3>Healthcare</h3>
-                    <p>Autonomous systems for remote healthcare delivery, medical supply transport, and patient assistance.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌊</div>
-                    <h3>Ocean Cleanup</h3>
-                    <p>Marine robotics datasets for pollution tracking, reef monitoring, and autonomous ocean cleanup operations.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📚</div>
-                    <h3>Education</h3>
-                    <p>Bring robotics education to underserved communities with open datasets, curricula, and mentorship programs.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- How It Works Section -->
-    <section class="section section-dark" id="platform">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">The Platform</span>
-                <h2 class="section-title">From <span class="gradient-text">Data to Impact</span></h2>
-                <p class="section-desc">Our end-to-end pipeline takes raw social good data and transforms it into trained models that power real-world humanitarian robotics.</p>
-            </div>
-            <div class="pipeline">
-                <div class="pipeline-step">
-                    <div class="step-number">01</div>
-                    <div class="step-content">
-                        <h3>Upload</h3>
-                        <p>Contributors upload datasets — video, sensor data, environmental scans, medical imagery — tagged for social good use cases.</p>
+                <div class="marketplace-intro">
+                    <div class="marketplace-stat">
+                        <span class="marketplace-stat-label">Curated library</span>
+                        <strong id="marketplaceDatasetCount">0 datasets</strong>
+                    </div>
+                    <div class="marketplace-stat">
+                        <span class="marketplace-stat-label">Review standard</span>
+                        <strong>NomadicML labeled</strong>
+                    </div>
+                    <div class="marketplace-stat">
+                        <span class="marketplace-stat-label">Home page focus</span>
+                        <strong>Search, filter, compare</strong>
                     </div>
                 </div>
-                <div class="pipeline-connector"></div>
-                <div class="pipeline-step">
-                    <div class="step-number">02</div>
-                    <div class="step-content">
-                        <h3>Curate & Validate</h3>
-                        <p>Community reviewers and automated pipelines validate data quality, ethics compliance, and relevance to active projects.</p>
-                    </div>
-                </div>
-                <div class="pipeline-connector"></div>
-                <div class="pipeline-step">
-                    <div class="step-number">03</div>
-                    <div class="step-content">
-                        <h3>Train Models</h3>
-                        <p>Researchers use curated datasets to train robotics models for specific humanitarian missions and deployments.</p>
-                    </div>
-                </div>
-                <div class="pipeline-connector"></div>
-                <div class="pipeline-step">
-                    <div class="step-number">04</div>
-                    <div class="step-content">
-                        <h3>Deploy & Impact</h3>
-                        <p>Trained models are deployed on real robots in the field — from disaster zones to rural clinics to ocean cleanup vessels.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Video Showcase Section -->
-    <section class="section" id="showcase">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Labeled Datasets</span>
-                <h2 class="section-title">Video <span class="gradient-text">Showcase</span></h2>
-                <p class="section-desc">Real robotics videos labeled and classified by <strong>NomadicML</strong> for social good use cases. Browse our growing library of annotated training data.</p>
-            </div>
-            <div class="showcase-filters" id="showcaseFilters">
-                <button class="filter-btn active" data-filter="all">All</button>
-            </div>
-            <div class="showcase-grid" id="showcaseGrid">
-                <!-- Populated by JS from labels.json -->
-            </div>
-            <div class="showcase-empty" id="showcaseEmpty" style="display:none;">
-                <p>No videos match this filter.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Newsletter / CTA -->
-    <section class="section cta-section">
-        <div class="container">
-            <div class="cta-card">
-                <h2>Join the Movement</h2>
-                <p>Get updates on new projects, impact reports, and opportunities to contribute.</p>
-                <form class="cta-form" id="newsletterForm">
-                    <input type="email" placeholder="Enter your email" required>
-                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                <form class="marketplace-search" id="showcaseSearchForm">
+                    <label class="search-label" for="showcaseSearchInput">Search the library</label>
+                    <div class="marketplace-search-row">
+                        <div class="search-input-wrap">
+                            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                            <input id="showcaseSearchInput" type="search" placeholder="Search by filename, mission, or event label">
+                        </div>
+                        <button class="btn btn-primary marketplace-search-btn" type="submit">Search</button>
+                    </div>
                 </form>
+
+                <div class="marketplace-toolbar">
+                    <div class="marketplace-toolbar-row">
+                        <div class="marketplace-toolbar-copy">
+                            <p class="marketplace-toolbar-title">Discover datasets by mission</p>
+                            <p class="marketplace-toolbar-subtitle" id="showcaseResultsCount">Loading library...</p>
+                        </div>
+                        <div class="marketplace-sort" id="showcaseSorts">
+                            <button class="sort-btn active" type="button" data-sort="confidence">Top confidence</button>
+                            <button class="sort-btn" type="button" data-sort="events">Most events</button>
+                            <button class="sort-btn" type="button" data-sort="name">A-Z</button>
+                        </div>
+                    </div>
+                    <div class="showcase-filters" id="showcaseFilters">
+                        <button class="filter-btn active" type="button" data-filter="all">All</button>
+                    </div>
+                </div>
+
+                <div class="showcase-grid showcase-grid-plain" id="showcaseGrid">
+                    <!-- Populated by JS from labels.json -->
+                </div>
+                <div class="showcase-empty" id="showcaseEmpty" style="display:none;">
+                    <p>No datasets match that search yet. Try a broader term or another mission filter.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <span class="logo-icon">⚙️</span>
+                    <span class="logo-icon">R</span>
                     <span class="logo-text" style="font-weight:700;font-size:1.05rem;">Robotics for Social Good</span>
                     <p>Building autonomous systems that serve humanity. Open source. Community driven.</p>
                 </div>
@@ -252,7 +175,6 @@
         </div>
     </footer>
 
-    <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
     <script src="js/home.js"></script>
