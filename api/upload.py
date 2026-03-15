@@ -11,14 +11,18 @@ load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 try:
     from nomadicml import AnalysisType, NomadicML
-except ImportError:
+    NOMADICML_IMPORT_ERROR = None
+except Exception as error:
     AnalysisType = None
     NomadicML = None
+    NOMADICML_IMPORT_ERROR = str(error)
 
 try:
     from supabase import create_client
-except ImportError:
+    SUPABASE_IMPORT_ERROR = None
+except Exception as error:
     create_client = None
+    SUPABASE_IMPORT_ERROR = str(error)
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 250 * 1024 * 1024
@@ -128,10 +132,29 @@ def handle_unexpected_error(error):
 
 
 @app.post("/")
+@app.get("/")
 @app.post("/api/upload")
+@app.get("/api/upload")
 def upload():
+    if request.method == "GET":
+        return jsonify({
+            "ok": True,
+            "service": "upload",
+            "nomadicml_available": NomadicML is not None and AnalysisType is not None,
+            "supabase_available": create_client is not None,
+            "has_nomadic_api_key": bool(os.environ.get("NOMADICML_API_KEY")),
+            "has_supabase_url": bool(os.environ.get("SUPABASE_URL")),
+            "has_supabase_key": bool(os.environ.get("SUPABASE_KEY")),
+            "nomadicml_import_error": NOMADICML_IMPORT_ERROR,
+            "supabase_import_error": SUPABASE_IMPORT_ERROR,
+        })
+
     if NomadicML is None or AnalysisType is None:
-        return jsonify({"ok": False, "error": "Upload service dependency is not installed on the server."}), 500
+        return jsonify({
+            "ok": False,
+            "error": "Upload service dependency is not installed on the server.",
+            "details": NOMADICML_IMPORT_ERROR,
+        }), 500
 
     api_key = os.environ.get("NOMADICML_API_KEY")
     if not api_key:
